@@ -3,7 +3,7 @@ title: "test"
 date: "2026-09-15T10:22:00"
 author: "admin"
 template: "default"
-draft: false
+draft: true
 hidden: false
 excludeFromHomepage: true
 featured: false
