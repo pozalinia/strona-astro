@@ -12,7 +12,7 @@ tags:
 mainTag: "wydarzenia"
 draft: false
 hidden: false
-excludeFromHomepage: false
+excludeFromHomepage: true
 featured: true
 featuredImage:
   src: "/media/posts/213/WYDARZENIE-FB-1.png"
