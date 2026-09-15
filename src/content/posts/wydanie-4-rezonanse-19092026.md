@@ -11,7 +11,7 @@ tags:
 mainTag: "wydania"
 draft: false
 hidden: false
-excludeFromHomepage: true
+excludeFromHomepage: false
 featured: true
 featuredImage:
   src: "/media/posts/215/okladka-01.png"
