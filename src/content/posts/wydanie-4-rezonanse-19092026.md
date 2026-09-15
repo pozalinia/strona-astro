@@ -1,14 +1,25 @@
 ---
 publiiId: 215
 title: "Wydanie 4 „Rezonanse”, 19.09.2026"
-date: "2026-09-10T10:58:36Z"
-updated: "2026-09-14T19:12:23Z"
+date: "2026-09-10T12:58:00"
+updated: "2026-09-14T21:12:00"
 author: "admin"
 template: "default"
-tags: ["wydania", "wydanie-4-rezonanse"]
+tags:
+  - "wydania"
+  - "wydanie-4-rezonanse"
 mainTag: "wydania"
+draft: false
+hidden: false
+excludeFromHomepage: true
 featured: true
-featuredImage: {"src": "/media/posts/215/okladka-01.png", "alt": "Wydanie 4 „Rezonanse”", "width": 7837, "height": 4450}
+featuredImage:
+  src: "/media/posts/215/okladka-01.png"
+  alt: "Wydanie 4 „Rezonanse”"
+  width: 7837
+  height: 4450
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 
