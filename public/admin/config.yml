@@ -14,7 +14,7 @@ site_url: https://pozalinia.pl
 backend:
   name: github
   repo: pozalinia/strona-astro
-  branch: main
+  branch: preview
   # Worker sveltia-cms-auth (logowanie przez GitHub OAuth) – odkomentuj po wdrożeniu.
   # Do tego czasu można logować się tokenem („Sign In with Token”).
   # base_url: https://sveltia-cms-auth.<SUBDOMENA>.workers.dev
