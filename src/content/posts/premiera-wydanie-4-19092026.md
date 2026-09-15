@@ -1,15 +1,25 @@
 ---
 publiiId: 213
 title: "Premiera. Wydanie 4, 19.09.2026"
-date: "2026-08-23T17:17:38Z"
-updated: "2026-09-14T19:12:48Z"
+date: "2026-08-23T19:17:00"
+updated: "2026-09-14T21:12:00"
 author: "admin"
 template: "default"
-tags: ["wydarzenia", "wydanie-4-rezonanse", "premiera"]
+tags:
+  - "wydarzenia"
+  - "wydanie-4-rezonanse"
+  - "premiera"
 mainTag: "wydarzenia"
-hidden: true
+draft: false
+hidden: false
+excludeFromHomepage: true
 featured: true
-featuredImage: {"src": "/media/posts/213/WYDARZENIE-FB-1.png", "width": 1920, "height": 1080}
+featuredImage:
+  src: "/media/posts/213/WYDARZENIE-FB-1.png"
+  width: 1920
+  height: 1080
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 
