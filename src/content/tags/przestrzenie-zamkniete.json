@@ -1,0 +1,15 @@
+{
+  "publiiId": 4,
+  "name": "Przestrzenie zamknięte",
+  "description": "<p>Sekcja Wydania 2</p>",
+  "image": {
+    "src": "/media/tags/4/3.-zamkniete.jpg",
+    "alt": "Przestrzenie zamknięte",
+    "width": 4267,
+    "height": 2114
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

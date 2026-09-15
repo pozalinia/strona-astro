@@ -1,0 +1,762 @@
+# Sveltia CMS – panel redakcyjny POZa Linią (https://pozalinia.pl/admin/)
+#
+# Pola odwzorowują schematy z src/content.config.ts, w kolejności kluczy zapisanych w plikach.
+# Po zmianie schematu zaktualizuj też ten plik.
+#
+# Treść przeniesiona z Publii to HTML (format: html), a edytor rich text zapisuje wyłącznie
+# Markdown. Dlatego wpisy i strony mają po dwie kolekcje nad tym samym folderem: nowe
+# (rich text) i z Publii (edycja kodu HTML). Relacje wskazują ukryte kolekcje-indeksy,
+# które obejmują wszystkie pliki niezależnie od formatu.
+
+app_title: POZa Linią – redakcja
+site_url: https://pozalinia.pl
+
+backend:
+  name: github
+  repo: pozalinia/strona-astro
+  branch: main
+  # Worker sveltia-cms-auth (logowanie przez GitHub OAuth) – odkomentuj po wdrożeniu.
+  # Do tego czasu można logować się tokenem („Sign In with Token”).
+  # base_url: https://sveltia-cms-auth.<SUBDOMENA>.workers.dev
+
+# Pliki ogólne (loga, dokumenty) – jak w Publii: /media/files/<plik>
+media_folder: /public/media/files
+public_folder: /media/files
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+output:
+  # Puste pola opcjonalne nie trafiają do plików – schematy zod odrzucają null
+  omit_empty_optional_fields: true
+  yaml:
+    quote: double
+  json:
+    indent_style: space
+    indent_size: 2
+
+collections:
+  # ---------------------------------------------------------------------------
+  # Wpisy
+  # ---------------------------------------------------------------------------
+  - name: wpisy
+    label: Wpisy
+    label_singular: Wpis
+    description: Nowe wpisy pisane w edytorze rich text.
+    folder: src/content/posts
+    extension: md
+    format: yaml-frontmatter
+    filter:
+      field: format
+      value: [markdown, null]
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: [date, title]
+    view_filters: &post_view_filters
+      - label: Wiersze
+        field: template
+        pattern: poem
+      - label: Recenzje
+        field: template
+        pattern: review
+      - label: Teksty
+        field: template
+        pattern: text
+      - label: Ukryte
+        field: hidden
+        pattern: true
+    view_groups: &post_view_groups
+      - label: Szablon
+        field: template
+    # Obrazki wpisu w jego katalogu, jak w Publii: /media/posts/<katalog wpisu>/<plik>
+    media_folder: /public/media/posts/{{slug}}
+    public_folder: /media/posts/{{slug}}
+    fields:
+      - name: publiiId
+        label: ID z Publii
+        widget: number
+        value_type: int
+        required: false
+        readonly: true
+        hint: "Wpisy bez ID nie mają awaryjnej nawigacji ◁ ▷ do sąsiednich wpisów."
+      - name: title
+        label: Tytuł
+        widget: string
+      - name: date
+        label: Data publikacji
+        widget: datetime
+      - name: updated
+        label: Data aktualizacji
+        widget: datetime
+        required: false
+      - name: author
+        label: Autor/ka
+        widget: relation
+        collection: autorzy
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+      - name: template
+        label: Szablon
+        widget: select
+        default: default
+        options:
+          - label: Domyślny (strona numeru, wydarzenie, przedmowa)
+            value: default
+          - label: Wiersz
+            value: poem
+          - label: Recenzja
+            value: review
+          - label: Tekst
+            value: text
+      - name: tags
+        label: Tagi
+        widget: relation
+        collection: tagi
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+        multiple: true
+        required: false
+        hint: "Zaznacz tu także numer wydania i dział – od tego zależą listy na stronach tagów."
+      - name: mainTag
+        label: Dział
+        widget: relation
+        collection: tagi
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+        required: false
+        hint: "Grafika tego tagu jest nagłówkiem wiersza, recenzji i tekstu."
+      - name: draft
+        label: Szkic
+        widget: boolean
+        default: false
+        hint: "Szkic nie ma strony na witrynie."
+      - name: hidden
+        label: Ukryty
+        widget: boolean
+        default: false
+        hint: "Wpis ma swoją stronę, ale nie pojawia się na listach (np. numer przed premierą)."
+      - name: excludeFromHomepage
+        label: Poza stroną główną
+        widget: boolean
+        default: false
+      - name: featured
+        label: Wyróżniony (strona numeru)
+        widget: boolean
+        default: false
+        hint: "Wyróżnione wpisy są do wyboru w polu „Numer wydania”."
+      - &image_field
+        name: featuredImage
+        label: Obrazek wyróżniający
+        widget: object
+        required: false
+        fields:
+          - name: src
+            label: Plik
+            widget: image
+          - name: alt
+            label: Tekst alternatywny
+            widget: string
+            required: false
+          - name: caption
+            label: Podpis
+            widget: string
+            required: false
+          - name: credits
+            label: Autor/ka zdjęcia
+            widget: string
+            required: false
+          - name: width
+            label: Szerokość (px)
+            widget: number
+            value_type: int
+            required: false
+          - name: height
+            label: Wysokość (px)
+            widget: number
+            value_type: int
+            required: false
+      - &meta_title_field
+        name: metaTitle
+        label: Tytuł SEO
+        widget: string
+        required: false
+      - &meta_description_field
+        name: metaDescription
+        label: Opis SEO
+        widget: text
+        required: false
+        hint: "Puste = pierwsze 45 słów treści."
+      - name: customTitle
+        label: Tytuł w nawigacji
+        widget: string
+        required: false
+        hint: "Zastępuje tytuł między strzałkami ◁ ▷. W wierszu i recenzji można użyć HTML (np. <em>)."
+      - name: secondTextTitle
+        label: Tytuł drugiego tekstu
+        widget: string
+        required: false
+        hint: "Tylko szablon recenzji."
+      - name: coauthor
+        label: Druga osoba autorska
+        widget: relation
+        collection: autorzy
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+        required: false
+      - name: coauthorText
+        label: Drugi tekst
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+      - name: prevPost
+        label: Poprzedni wpis (◁)
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+        hint: "Puste = wpis o poprzednim ID z Publii."
+      - name: nextPost
+        label: Następny wpis (▷)
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+        hint: "Puste = wpis o następnym ID z Publii."
+      - name: releasePost
+        label: Numer wydania
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        filters:
+          - field: featured
+            values: [true]
+        required: false
+        hint: "Link do strony numeru w dolnej nawigacji."
+      - name: reviewPost
+        label: Recenzja działu
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+      - name: displayCustomNav
+        label: Nawigacja ◁ ▷
+        widget: boolean
+        default: true
+      - name: displayAuthorBio
+        label: Biogram pod tekstem
+        widget: boolean
+        default: false
+        hint: "Dotyczy szablonu tekstu – wiersz i recenzja zawsze pokazują biogram."
+      - name: format
+        widget: hidden
+        default: markdown
+      - name: body
+        label: Treść
+        widget: richtext
+
+  - name: wpisy-html
+    label: Wpisy z Publii
+    label_singular: Wpis z Publii
+    description: Treści przeniesione z Publii (HTML). Edytor rich text zapisuje Markdown i zniszczyłby formatowanie, dlatego edytujesz kod.
+    folder: src/content/posts
+    extension: md
+    format: yaml-frontmatter
+    filter:
+      field: format
+      value: html
+    create: false
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: [date, title]
+    view_filters: *post_view_filters
+    view_groups: *post_view_groups
+    media_folder: /public/media/posts/{{slug}}
+    public_folder: /media/posts/{{slug}}
+    fields:
+      - name: publiiId
+        label: ID z Publii
+        widget: number
+        value_type: int
+        required: false
+        readonly: true
+      - name: title
+        label: Tytuł
+        widget: string
+      - name: date
+        label: Data publikacji
+        widget: datetime
+      - name: updated
+        label: Data aktualizacji
+        widget: datetime
+        required: false
+      - name: author
+        label: Autor/ka
+        widget: relation
+        collection: autorzy
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+      - name: template
+        label: Szablon
+        widget: select
+        default: default
+        options:
+          - label: Domyślny (strona numeru, wydarzenie, przedmowa)
+            value: default
+          - label: Wiersz
+            value: poem
+          - label: Recenzja
+            value: review
+          - label: Tekst
+            value: text
+      - name: tags
+        label: Tagi
+        widget: relation
+        collection: tagi
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+        multiple: true
+        required: false
+        hint: "Zaznacz tu także numer wydania i dział – od tego zależą listy na stronach tagów."
+      - name: mainTag
+        label: Dział
+        widget: relation
+        collection: tagi
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+        required: false
+        hint: "Grafika tego tagu jest nagłówkiem wiersza, recenzji i tekstu."
+      - name: draft
+        label: Szkic
+        widget: boolean
+        default: false
+        hint: "Szkic nie ma strony na witrynie."
+      - name: hidden
+        label: Ukryty
+        widget: boolean
+        default: false
+        hint: "Wpis ma swoją stronę, ale nie pojawia się na listach (np. numer przed premierą)."
+      - name: excludeFromHomepage
+        label: Poza stroną główną
+        widget: boolean
+        default: false
+      - name: featured
+        label: Wyróżniony (strona numeru)
+        widget: boolean
+        default: false
+        hint: "Wyróżnione wpisy są do wyboru w polu „Numer wydania”."
+      - *image_field
+      - *meta_title_field
+      - *meta_description_field
+      - name: customTitle
+        label: Tytuł w nawigacji
+        widget: string
+        required: false
+        hint: "Zastępuje tytuł między strzałkami ◁ ▷. W wierszu i recenzji można użyć HTML (np. <em>)."
+      - name: secondTextTitle
+        label: Tytuł drugiego tekstu
+        widget: string
+        required: false
+        hint: "Tylko szablon recenzji."
+      - name: coauthor
+        label: Druga osoba autorska
+        widget: relation
+        collection: autorzy
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+        required: false
+      - name: coauthorText
+        label: Drugi tekst
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+      - name: prevPost
+        label: Poprzedni wpis (◁)
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+        hint: "Puste = wpis o poprzednim ID z Publii."
+      - name: nextPost
+        label: Następny wpis (▷)
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+        hint: "Puste = wpis o następnym ID z Publii."
+      - name: releasePost
+        label: Numer wydania
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        filters:
+          - field: featured
+            values: [true]
+        required: false
+        hint: "Link do strony numeru w dolnej nawigacji."
+      - name: reviewPost
+        label: Recenzja działu
+        widget: relation
+        collection: wpisy-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+      - name: displayCustomNav
+        label: Nawigacja ◁ ▷
+        widget: boolean
+        default: true
+      - name: displayAuthorBio
+        label: Biogram pod tekstem
+        widget: boolean
+        default: false
+        hint: "Dotyczy szablonu tekstu – wiersz i recenzja zawsze pokazują biogram."
+      - name: format
+        widget: hidden
+        default: html
+      - name: body
+        label: Treść (HTML)
+        widget: richtext
+        modes: [raw]
+
+  # Ukryta kolekcja – wyłącznie cel relacji (obejmuje wpisy w obu formatach)
+  - name: wpisy-indeks
+    label: Wszystkie wpisy
+    folder: src/content/posts
+    extension: md
+    format: yaml-frontmatter
+    hide: true
+    create: false
+    delete: false
+    identifier_field: title
+    fields:
+      - name: title
+        label: Tytuł
+        widget: string
+      - name: featured
+        label: Wyróżniony
+        widget: boolean
+        default: false
+
+  # ---------------------------------------------------------------------------
+  # Strony
+  # ---------------------------------------------------------------------------
+  - name: strony
+    label: Strony
+    label_singular: Strona
+    description: Nowe strony (np. O nas) pisane w edytorze rich text.
+    folder: src/content/pages
+    extension: md
+    format: yaml-frontmatter
+    filter:
+      field: format
+      value: [markdown, null]
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    # Publii trzymał media stron w tym samym katalogu co media wpisów
+    media_folder: /public/media/posts/{{slug}}
+    public_folder: /media/posts/{{slug}}
+    fields:
+      - name: publiiId
+        label: ID z Publii
+        widget: number
+        value_type: int
+        required: false
+        readonly: true
+      - name: title
+        label: Tytuł
+        widget: string
+      - name: date
+        label: Data publikacji
+        widget: datetime
+      - name: updated
+        label: Data aktualizacji
+        widget: datetime
+        required: false
+      - name: author
+        label: Autor/ka
+        widget: relation
+        collection: autorzy
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+      - name: template
+        label: Szablon
+        widget: select
+        default: default
+        options:
+          - label: Domyślny
+            value: default
+          - label: Pusty kontener (Empty container)
+            value: empty
+      - name: parent
+        label: Strona nadrzędna
+        widget: relation
+        collection: strony-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+        hint: "Adres strony: /<strona nadrzędna>/<slug>/"
+      - name: draft
+        label: Szkic
+        widget: boolean
+        default: false
+      - name: displayAuthor
+        label: Pokaż autora/kę pod tytułem
+        widget: boolean
+        default: false
+      - name: displayAuthorBio
+        label: Pokaż biogram pod treścią
+        widget: boolean
+        default: false
+      - *image_field
+      - *meta_title_field
+      - *meta_description_field
+      - name: format
+        widget: hidden
+        default: markdown
+      - name: body
+        label: Treść
+        widget: richtext
+
+  - name: strony-html
+    label: Strony z Publii
+    label_singular: Strona z Publii
+    description: Strony przeniesione z Publii (HTML) – edycja kodu.
+    folder: src/content/pages
+    extension: md
+    format: yaml-frontmatter
+    filter:
+      field: format
+      value: html
+    create: false
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    media_folder: /public/media/posts/{{slug}}
+    public_folder: /media/posts/{{slug}}
+    fields:
+      - name: publiiId
+        label: ID z Publii
+        widget: number
+        value_type: int
+        required: false
+        readonly: true
+      - name: title
+        label: Tytuł
+        widget: string
+      - name: date
+        label: Data publikacji
+        widget: datetime
+      - name: updated
+        label: Data aktualizacji
+        widget: datetime
+        required: false
+      - name: author
+        label: Autor/ka
+        widget: relation
+        collection: autorzy
+        value_field: "{{slug}}"
+        search_fields: [name]
+        display_fields: [name]
+      - name: template
+        label: Szablon
+        widget: select
+        default: default
+        options:
+          - label: Domyślny
+            value: default
+          - label: Pusty kontener (Empty container)
+            value: empty
+      - name: parent
+        label: Strona nadrzędna
+        widget: relation
+        collection: strony-indeks
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        required: false
+        hint: "Adres strony: /<strona nadrzędna>/<slug>/"
+      - name: draft
+        label: Szkic
+        widget: boolean
+        default: false
+      - name: displayAuthor
+        label: Pokaż autora/kę pod tytułem
+        widget: boolean
+        default: false
+      - name: displayAuthorBio
+        label: Pokaż biogram pod treścią
+        widget: boolean
+        default: false
+      - *image_field
+      - *meta_title_field
+      - *meta_description_field
+      - name: format
+        widget: hidden
+        default: html
+      - name: body
+        label: Treść (HTML)
+        widget: richtext
+        modes: [raw]
+
+  # Ukryta kolekcja – wyłącznie cel relacji „Strona nadrzędna”
+  - name: strony-indeks
+    label: Wszystkie strony
+    folder: src/content/pages
+    extension: md
+    format: yaml-frontmatter
+    hide: true
+    create: false
+    delete: false
+    identifier_field: title
+    fields:
+      - name: title
+        label: Tytuł
+        widget: string
+
+  # ---------------------------------------------------------------------------
+  # Tagi i osoby autorskie
+  # ---------------------------------------------------------------------------
+  - name: tagi
+    label: Tagi
+    label_singular: Tag
+    description: Numery wydań, działy, wydarzenia i inne tagi.
+    folder: src/content/tags
+    extension: json
+    format: json
+    identifier_field: name
+    slug: "{{slug}}"
+    summary: "{{name}}"
+    sortable_fields: [name]
+    media_folder: /public/media/tags/{{slug}}
+    public_folder: /media/tags/{{slug}}
+    fields:
+      - name: publiiId
+        label: ID z Publii
+        widget: number
+        value_type: int
+        required: false
+        readonly: true
+      - name: name
+        label: Nazwa
+        widget: string
+      - name: description
+        label: Opis (HTML)
+        widget: text
+        required: false
+        hint: "Wstawiany jako HTML, np. <p>Sekcja Wydania 4</p>."
+      - name: image
+        label: Grafika
+        widget: object
+        required: false
+        fields:
+          - name: src
+            label: Plik
+            widget: image
+          - name: alt
+            label: Tekst alternatywny
+            widget: string
+            required: false
+          - name: caption
+            label: Podpis
+            widget: string
+            required: false
+          - name: credits
+            label: Autor/ka grafiki
+            widget: string
+            required: false
+          - name: width
+            label: Szerokość (px)
+            widget: number
+            value_type: int
+            required: false
+          - name: height
+            label: Wysokość (px)
+            widget: number
+            value_type: int
+            required: false
+      - name: hidden
+        label: Ukryty
+        widget: boolean
+        default: false
+      - name: displayFeaturedImage
+        label: Pokaż grafikę na stronie tagu
+        widget: boolean
+        default: true
+      - name: displayPostCounter
+        label: Pokaż liczbę wpisów
+        widget: boolean
+        default: false
+      - name: displayDescription
+        label: Pokaż opis
+        widget: boolean
+        default: false
+      - name: displayPostList
+        label: Pokaż listę wpisów
+        widget: boolean
+        default: true
+      - *meta_title_field
+      - *meta_description_field
+
+  - name: autorzy
+    label: Osoby autorskie
+    label_singular: Osoba autorska
+    folder: src/content/authors
+    extension: json
+    format: json
+    identifier_field: name
+    slug: "{{slug}}"
+    summary: "{{name}}"
+    sortable_fields: [name]
+    fields:
+      - name: publiiId
+        label: ID z Publii
+        widget: number
+        value_type: int
+        required: false
+        readonly: true
+      - name: name
+        label: Imię i nazwisko
+        widget: string
+      - name: description
+        label: Biogram (HTML)
+        widget: text
+        required: false
+        hint: "Wstawiany jako HTML, np. <p>(ur. 1990) poetka…</p>."
+      - name: website
+        label: Strona WWW
+        widget: string
+        required: false

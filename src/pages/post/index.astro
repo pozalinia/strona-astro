@@ -1,0 +1,22 @@
+---
+import FeedItem from '../../components/FeedItem.astro';
+import Base from '../../layouts/Base.astro';
+import { getPosts, isOnHomepage } from '../../lib/site';
+
+const posts = (await getPosts()).filter(isOnHomepage);
+---
+
+<Base bodyClass="blogindex-template">
+  <main class="posts">
+    <div class="hero hero--noimage">
+      <header class="hero__content hero__content--centered">
+        <div class="wrapper">
+          <h1>Wpisy</h1>
+        </div>
+      </header>
+    </div>
+    <div class="wrapper feed">
+      {posts.map((post) => <FeedItem post={post} linkImage />)}
+    </div>
+  </main>
+</Base>

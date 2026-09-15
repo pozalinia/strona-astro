@@ -1,0 +1,43 @@
+---
+import { IMAGE_SIZES, srcset } from '../lib/content';
+
+export interface ImageData {
+  src: string;
+  alt?: string;
+  caption?: string;
+  credits?: string;
+  width?: number;
+  height?: number;
+}
+
+interface Props {
+  image: ImageData;
+  /** Szablon „Empty container” nie ma div.hero__image-wrapper */
+  wrapper?: boolean;
+}
+
+const { image, wrapper = true } = Astro.props;
+const set = srcset(image.src);
+const attrs = {
+  src: image.src,
+  srcset: set,
+  sizes: set ? IMAGE_SIZES.hero : undefined,
+  loading: 'eager' as const,
+  height: image.height,
+  width: image.width,
+  alt: image.alt ?? '',
+};
+---
+
+<figure class="hero__image">
+  {
+    wrapper ? (
+      <div class="hero__image-wrapper">
+        <img {...attrs} />
+      </div>
+    ) : (
+      <img {...attrs} />
+    )
+  }
+  {(image.caption || image.credits) && <figcaption>{image.caption} {image.credits}</figcaption>}
+</figure>

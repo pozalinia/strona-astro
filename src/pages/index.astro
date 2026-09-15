@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import { IMAGE_SIZES, smallestImage, srcset } from '../lib/content';
+import { getPosts, isOnHomepage, postUrl } from '../lib/site';
+
+const posts = (await getPosts()).filter(isOnHomepage);
+const [latest, ...older] = posts;
+const latestImage = latest?.data.featuredImage;
+---
+
+<Base bodyClass="home-template">
+  <main>
+    <div class="wrapper custom-homepage-layout" style="margin-top: 3rem;">
+      {
+        latest && (
+          <>
+            <section class="latest-issue-full" style="margin-bottom: 5rem;">
+              <h2 class="h2 section-title" style="margin-bottom: 1.5rem; text-align: center;">
+                Najnowszy numer
+              </h2>
+              <div class="latest-issue-wrapper" style="width: 100%;">
+                <a href={postUrl(latest.id)} style="text-decoration: none; color: inherit; display: block;">
+                  {latestImage && (
+                    <figure
+                      class="feed__image"
+                      style="margin: 0 !important; padding: 0 !important; height: auto !important; width: 100%; aspect-ratio: 16/9;"
+                    >
+                      <img
+                        src={latestImage.src}
+                        loading="eager"
+                        height={latestImage.height}
+                        width={latestImage.width}
+                        style="display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16/9; border-radius: 4px; box-shadow: 0 6px 25px rgba(0,0,0,0.15);"
+                        alt={latestImage.alt}
+                      />
+                    </figure>
+                  )}
+                  <h3 class="h2 issue-title" style="margin-top: 1.5rem; text-align: center;">
+                    {latest.data.title}
+                  </h3>
+                </a>
+              </div>
+            </section>
+
+            <section class="archive-section">
+              <h2
+                class="h3 section-title"
+                style="margin-bottom: 1.5rem; border-bottom: 1px solid #eeeeee; padding-bottom: 0.5rem;"
+              >
+                Poprzednie numery
+              </h2>
+              <div
+                class="older-issues-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;"
+              >
+                {older.map((post) => {
+                  const image = post.data.featuredImage;
+                  const set = image ? srcset(image.src, 'feed') : undefined;
+                  return (
+                    <article class="archive-issue" style="display: flex; flex-direction: column;">
+                      <a href={postUrl(post.id)} style="text-decoration: none; color: inherit; display: block;">
+                        {image && (
+                          <figure
+                            class="feed__image"
+                            style="margin: 0 !important; padding: 0 !important; height: auto !important; width: 100%; aspect-ratio: 16/9;"
+                          >
+                            <img
+                              src={smallestImage(image.src)}
+                              sizes={set ? IMAGE_SIZES.feed : undefined}
+                              srcset={set}
+                              loading="lazy"
+                              height={image.height}
+                              width={image.width}
+                              style="display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16/9; border-radius: 4px;"
+                              alt={image.alt}
+                            />
+                          </figure>
+                        )}
+                        <h4 class="h5 issue-title" style="margin-top: 0.8rem; margin-bottom: 0;">
+                          {post.data.title}
+                        </h4>
+                      </a>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          </>
+        )
+      }
+    </div>
+  </main>
+</Base>

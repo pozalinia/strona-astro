@@ -1,0 +1,110 @@
+---
+// Szablony z motywu Publii: wiersz (poem), recenzja (review), tekst (text)
+import HeroImage from '../HeroImage.astro';
+import PostBody from '../PostBody.astro';
+import Bio from './Bio.astro';
+import BottomNav from './BottomNav.astro';
+import CustomNav from './CustomNav.astro';
+import type { Lookups, Post } from '../../lib/site';
+
+interface Props {
+  post: Post;
+  lookups: Lookups;
+}
+
+const { post, lookups } = Astro.props;
+const { data } = post;
+const template = data.template;
+const isReview = template === 'review';
+
+const bySlug = (slug?: string) => (slug ? lookups.postBySlug.get(slug) : undefined);
+const neighbour = (offset: number) =>
+  data.publiiId === undefined ? undefined : lookups.postByPubliiId.get(data.publiiId + offset);
+
+// Własne pole „poprzedni/następny”, a gdy puste – wpis o sąsiednim ID (jak w Publii)
+const prevTop = data.prevPost !== undefined ? bySlug(data.prevPost) : neighbour(-1);
+const nextTop = data.nextPost !== undefined ? bySlug(data.nextPost) : neighbour(1);
+// W szablonie recenzji dolna nawigacja nie ma awaryjnego sąsiada
+const prevBottom = isReview && data.prevPost === undefined ? undefined : prevTop;
+const nextBottom = isReview && data.nextPost === undefined ? undefined : nextTop;
+
+const heroImage = data.mainTag ? lookups.tagBySlug.get(data.mainTag)?.data.image : undefined;
+const author = lookups.authorBySlug.get(data.author);
+const showBio = template !== 'text' || data.displayAuthorBio;
+const coauthor = data.coauthor ? lookups.authorBySlug.get(data.coauthor) : undefined;
+const coauthorText = bySlug(data.coauthorText);
+const navTitle = data.customTitle || data.title;
+const navTitleIsHtml = !!data.customTitle && template !== 'text';
+const navProps = { prev: prevTop, next: nextTop, title: navTitle, titleIsHtml: navTitleIsHtml };
+const bottomProps = {
+  prev: prevBottom,
+  next: nextBottom,
+  release: bySlug(data.releasePost),
+  review: bySlug(data.reviewPost),
+  plainPrev: template === 'text',
+};
+const secondTitleStyle = 'text-align: center; margin-bottom: 2rem;';
+---
+
+<main class="post">
+  <article class="content">
+    <div class:list={['hero', { 'hero--noimage': !heroImage }]}>
+      {heroImage && <HeroImage image={heroImage} />}
+      {
+        isReview ? (
+          <header class="hero__content hero__content--centered" />
+        ) : (
+          <header class="hero__content hero__content--centered">
+            <div class="wrapper">
+              <CustomNav {...navProps} />
+            </div>
+          </header>
+        )
+      }
+    </div>
+    {
+      isReview && (
+        <div class="wrapper">
+          <CustomNav {...navProps} />
+        </div>
+      )
+    }
+
+    <div class="post-layout">
+      <div class:list={['entry-wrapper content__entry layout-area-text', { 'post-poetary': template === 'poem' }]}>
+        <PostBody entry={post} />
+      </div>
+      {showBio && author && <Bio author={author} heading={isReview ? 'h6' : 'h3'} />}
+      {
+        coauthorText && (
+          <div class="entry-wrapper content__entry layout-area-text">
+            {isReview ? (
+              <h4 style={secondTitleStyle} set:html={data.secondTextTitle || coauthorText.data.title} />
+            ) : (
+              <h4 style={secondTitleStyle}>{coauthorText.data.title}</h4>
+            )}
+            <PostBody entry={coauthorText} />
+          </div>
+        )
+      }
+      {coauthor && <Bio author={coauthor} heading="h6" />}
+    </div>
+
+    {
+      data.displayCustomNav && (
+        <footer class="content__footer">
+          {isReview ? (
+            <>
+              <div class="entry-wrapper" />
+              <BottomNav {...bottomProps} />
+            </>
+          ) : (
+            <div class="entry-wrapper">
+              <BottomNav {...bottomProps} />
+            </div>
+          )}
+        </footer>
+      )
+    }
+  </article>
+</main>

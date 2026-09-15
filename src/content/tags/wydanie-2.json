@@ -1,0 +1,15 @@
+{
+  "publiiId": 2,
+  "name": "Wydanie 2 „Czasoprzestrzenie”",
+  "description": "<p>Czasoprzestrzenie</p>",
+  "image": {
+    "src": "/media/tags/2/1.-grafika-numeru.jpg",
+    "alt": "Wydanie 2 „Czasoprzestrzenie”",
+    "width": 4268,
+    "height": 2114
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

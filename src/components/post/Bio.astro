@@ -1,0 +1,23 @@
+---
+import { authorUrl, type Author } from '../../lib/site';
+
+interface Props {
+  author: Author;
+  heading: 'h3' | 'h6';
+}
+
+const { author, heading } = Astro.props;
+const Heading = heading;
+const headingClass = heading === 'h3' ? 'h5 bio__name' : 'h6 bio__name';
+const description = author.data.description;
+---
+
+<div class="content__bio bio layout-area-bio">
+  <div>
+    <Heading class={headingClass} style="display: flex; align-items: center; justify-content: space-between;">
+      <a href={authorUrl(author.id)} rel="author">{author.data.name}</a>{' '}
+      {description &&<span class="js-bio-toggle" onclick="toggleBio(this)">+</span>}
+    </Heading>
+    {description && <div class="bio__desc" style="display: none; margin-top: 10px;" set:html={description} />}
+  </div>
+</div>

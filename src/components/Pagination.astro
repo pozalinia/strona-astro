@@ -1,0 +1,37 @@
+---
+interface Props {
+  /** Nowsze wpisy (poprzednia strona listy) */
+  previousUrl?: string;
+  /** Starsze wpisy (następna strona listy) */
+  nextUrl?: string;
+}
+
+const { previousUrl, nextUrl } = Astro.props;
+---
+
+{
+  (previousUrl || nextUrl) && (
+    <nav class="wrapper pagination desc">
+      {nextUrl && (
+        <div class="pagination__item">
+          <a href={nextUrl} class="btn btn--icon">
+            <svg width="20" height="20" aria-hidden="true">
+              <use xlink:href="/assets/svg/svg-map.svg#arrow-prev" />
+            </svg>
+            <span>Starsze</span>
+          </a>
+        </div>
+      )}
+      {previousUrl && (
+        <div class="pagination__item">
+          <a href={previousUrl} class="btn btn--icon">
+            <span>Nowsze</span>
+            <svg width="20" height="20" aria-hidden="true">
+              <use xlink:href="/assets/svg/svg-map.svg#arrow-next" />
+            </svg>
+          </a>
+        </div>
+      )}
+    </nav>
+  )
+}

@@ -1,0 +1,14 @@
+{
+  "publiiId": 24,
+  "name": "Wydanie 4 „Rezonanse”",
+  "image": {
+    "src": "/media/tags/24/okladka-01.png",
+    "alt": "Wydanie 4 „Rezonanse”",
+    "width": 7837,
+    "height": 4450
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

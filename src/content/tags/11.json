@@ -1,0 +1,14 @@
+{
+  "publiiId": 31,
+  "name": "1.1.",
+  "image": {
+    "src": "/media/tags/29/1.-Cielesne.png",
+    "alt": "Cielesne",
+    "width": 8500,
+    "height": 5001
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

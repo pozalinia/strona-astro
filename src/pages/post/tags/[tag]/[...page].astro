@@ -1,0 +1,81 @@
+---
+import FeedItem from '../../../../components/FeedItem.astro';
+import HeroImage from '../../../../components/HeroImage.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import Base from '../../../../layouts/Base.astro';
+import { getLookups, postsWithTag, SITE, tagUrl, type Post, type Tag } from '../../../../lib/site';
+
+export async function getStaticPaths() {
+  const { posts, tags } = await getLookups();
+  return tags.flatMap((tag) => {
+    const tagged = postsWithTag(posts, tag.id);
+    if (!tagged.length) return [];
+    const perPage = SITE.tagPostsPerPage;
+    const pageCount = Math.ceil(tagged.length / perPage);
+    return Array.from({ length: pageCount }, (_, index) => ({
+      // Strona 1: /post/tags/slug/, kolejne: /post/tags/slug/page/2/
+      params: { tag: tag.id, page: index === 0 ? undefined : `page/${index + 1}` },
+      props: {
+        tag,
+        posts: tagged.slice(index * perPage, (index + 1) * perPage),
+        total: tagged.length,
+        current: index + 1,
+        pageCount,
+      },
+    }));
+  });
+}
+
+interface Props {
+  tag: Tag;
+  posts: Post[];
+  total: number;
+  current: number;
+  pageCount: number;
+}
+
+const { tag, posts, total, current, pageCount } = Astro.props;
+const pageLink = (number: number) => (number === 1 ? tagUrl(tag.id) : `${tagUrl(tag.id)}page/${number}/`);
+const newerUrl = current > 1 ? pageLink(current - 1) : undefined;
+const olderUrl = current < pageCount ? pageLink(current + 1) : undefined;
+const heroImage = tag.data.displayFeaturedImage ? tag.data.image : undefined;
+---
+
+<Base
+  bodyClass={current > 1 ? 'tag-template pagination-template' : 'tag-template'}
+  title={tag.data.metaTitle}
+  description={tag.data.metaDescription}
+  robots="noindex, follow"
+  prevUrl={newerUrl}
+  nextUrl={olderUrl}
+>
+  <main class="page page--tag">
+    <div class:list={['hero', { 'hero--noimage': !heroImage }]}>
+      <header class="hero__content hero__content--centered">
+        <div class="wrapper">
+          <h1>
+            {tag.data.name}
+            {tag.data.displayPostCounter && <sup>({total})</sup>}
+          </h1>
+          {
+            tag.data.displayDescription && tag.data.description && (
+              <div class="page__desc" set:html={tag.data.description} />
+            )
+          }
+        </div>
+      </header>
+      {heroImage && <HeroImage image={heroImage} />}
+    </div>
+
+    {
+      tag.data.displayPostList && (
+        <div class="wrapper feed">
+          {posts.map((post) => (
+            <FeedItem post={post} />
+          ))}
+          <Pagination previousUrl={newerUrl} nextUrl={olderUrl} />
+        </div>
+      )
+    }
+  </main>
+</Base>

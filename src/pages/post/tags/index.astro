@@ -1,0 +1,50 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { smallestImage } from '../../../lib/content';
+import { getLookups, postsWithTag, tagUrl } from '../../../lib/site';
+
+const { posts, tags } = await getLookups();
+const listed = tags
+  .map((tag) => ({ tag, count: postsWithTag(posts, tag.id).length }))
+  .filter(({ count }) => count > 0)
+  .sort((a, b) => a.tag.data.name.localeCompare(b.tag.data.name, 'pl', { sensitivity: 'base' }));
+---
+
+<Base bodyClass="tags-template" robots="noindex, follow">
+  <main class="page page--tags">
+    <div class="hero hero--noimage">
+      <header class="hero__content">
+        <div class="wrapper">
+          <h1>Tagi</h1>
+        </div>
+      </header>
+    </div>
+    <div class="wrapper">
+      <ul class="feed feed--grid">
+        {
+          listed.map(({ tag, count }) => (
+            <li class="feed__item">
+              {tag.data.image && (
+                <figure class="feed__image">
+                  <img
+                    src={smallestImage(tag.data.image.src)}
+                    loading="lazy"
+                    height={tag.data.image.height}
+                    width={tag.data.image.width}
+                    alt={tag.data.image.alt}
+                  />
+                </figure>
+              )}
+              <div class="feed__content">
+                <h2 class="h3">
+                  <a href={tagUrl(tag.id)}>{tag.data.name}</a>
+                </h2>
+                <p>Wpisy: {count}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+</Base>

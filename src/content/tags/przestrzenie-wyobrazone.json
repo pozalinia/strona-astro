@@ -1,0 +1,15 @@
+{
+  "publiiId": 3,
+  "name": "Przestrzenie wyobrażone",
+  "description": "<p>Sekcja wydania 2</p>",
+  "image": {
+    "src": "/media/tags/3/2.-wyobrazone.jpg",
+    "alt": "Przestrzenie wyobrażone",
+    "width": 4268,
+    "height": 2114
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

@@ -1,0 +1,14 @@
+{
+  "publiiId": 37,
+  "name": "4.1.",
+  "image": {
+    "src": "/media/tags/27/4.-Algorytmiczne.png",
+    "alt": "Algorytmiczne",
+    "width": 8501,
+    "height": 5001
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

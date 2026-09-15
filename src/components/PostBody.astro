@@ -1,0 +1,15 @@
+---
+import { render } from 'astro:content';
+import { enhanceContent } from '../lib/content';
+import type { Page, Post } from '../lib/site';
+
+interface Props {
+  entry: Post | Page;
+}
+
+const { entry } = Astro.props;
+const isHtml = entry.data.format === 'html';
+const Content = isHtml ? undefined : (await render(entry)).Content;
+---
+
+{isHtml ? <Fragment set:html={enhanceContent(entry.body ?? '')} /> : Content && <Content />}

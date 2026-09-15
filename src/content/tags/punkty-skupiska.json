@@ -1,0 +1,14 @@
+{
+  "publiiId": 10,
+  "name": "PUNKTY → SKUPISKA",
+  "description": "<p>Sekcja Wydania 1</p>",
+  "image": {
+    "src": "/media/tags/10/punkty_dark-2.png",
+    "width": 2084,
+    "height": 1032
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

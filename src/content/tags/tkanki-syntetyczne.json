@@ -1,0 +1,14 @@
+{
+  "publiiId": 19,
+  "name": "Tkanki syntetyczne",
+  "description": "<p>Sekcja Wydania 3</p>",
+  "image": {
+    "src": "/media/tags/19/Tkanki-syntetyczne.png",
+    "width": 1920,
+    "height": 1080
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

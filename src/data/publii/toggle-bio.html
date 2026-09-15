@@ -1,0 +1,13 @@
+<script>function toggleBio(btn) {
+    // Znajdź opis wewnątrz tego samego rodzica
+    var parent = btn.closest('div'); 
+    var desc = parent.querySelector('.bio__desc');
+    
+    if (desc.style.display === "none") {
+        desc.style.display = "block";
+        btn.innerHTML = "&minus;";
+    } else {
+        desc.style.display = "none";
+        btn.innerText = "+";
+    }
+}</script>

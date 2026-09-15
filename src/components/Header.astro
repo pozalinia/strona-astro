@@ -1,0 +1,19 @@
+---
+import menu from '../data/menu.json';
+import { SITE } from '../lib/site';
+import MenuItems, { type MenuItem } from './MenuItems.astro';
+---
+
+<header class="top js-header">
+  <a class="logo" href="/">
+    <img src={SITE.logo.src} alt={SITE.name} width={SITE.logo.width} height={SITE.logo.height} />
+  </a>
+  <nav class="navbar js-navbar">
+    <button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false">
+      <span class="navbar__toggle-box">
+        <span class="navbar__toggle-inner">Menu</span>
+      </span>
+    </button>
+    <MenuItems items={menu as MenuItem[]} />
+  </nav>
+</header>

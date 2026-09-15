@@ -1,0 +1,49 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import headBottom from '../data/publii/head-bottom.html?raw';
+import headTop from '../data/publii/head-top.html?raw';
+import { asset } from '../lib/content';
+import { SITE } from '../lib/site';
+
+interface Props {
+  bodyClass: string;
+  title?: string;
+  description?: string;
+  robots?: string;
+  /** Paginacja: poprzednia (nowsza) i następna (starsza) strona listy */
+  prevUrl?: string;
+  nextUrl?: string;
+  canonical?: boolean;
+  /** Skrypt rozwijania biogramów (szablony wiersza, recenzji i tekstu) */
+  bioToggle?: boolean;
+}
+
+const { bodyClass, title, description, robots, prevUrl, nextUrl, canonical = true, bioToggle = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title || SITE.name}</title>
+    {description && <meta name="description" content={description} />}
+    {robots && <meta name="robots" content={robots} />}
+    <meta name="generator" content={Astro.generator} />
+    <Fragment set:html={headTop} />
+    {canonical && <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />}
+    <link rel="shortcut icon" href={SITE.favicon} type="image/x-icon" />
+    {prevUrl && <link rel="prev" href={prevUrl} />}
+    {nextUrl && <link rel="next" href={nextUrl} />}
+    <link rel="stylesheet" href={asset('/assets/css/style.css')} />
+    <noscript><style is:inline>img[loading] { opacity: 1; }</style></noscript>
+    <Fragment set:html={headBottom} />
+  </head>
+  <body class={bodyClass}>
+    <Header />
+    <slot />
+    <Footer bioToggle={bioToggle} />
+  </body>
+</html>

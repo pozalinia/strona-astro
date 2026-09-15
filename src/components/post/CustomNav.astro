@@ -1,0 +1,26 @@
+---
+import { postUrl, type Post } from '../../lib/site';
+
+interface Props {
+  prev?: Post;
+  next?: Post;
+  title: string;
+  /** Własny tytuł z Publii może zawierać HTML (np. <em>) */
+  titleIsHtml?: boolean;
+}
+
+const { prev, next, title, titleIsHtml = false } = Astro.props;
+const centerStyle = 'display: flex; gap: 2rem; justify-content: center;';
+---
+
+<nav class="post-nav-custom">
+  <div class="post-nav-custom__item">
+    {prev && <a href={postUrl(prev.id)} id="goprev">◁</a>}
+  </div>
+  <div class="post-nav-custom__center">
+    {titleIsHtml ? <div style={centerStyle} set:html={title} /> : <div style={centerStyle}>{title}</div>}
+  </div>
+  <div class="post-nav-custom__item">
+    {next && <a href={postUrl(next.id)} id="gonext" style="text-decoration: none">▷</a>}
+  </div>
+</nav>

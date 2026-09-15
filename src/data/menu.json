@@ -1,0 +1,32 @@
+[
+  {
+    "label": "Strona główna",
+    "url": "/",
+    "target": "_self"
+  },
+  {
+    "label": "Wydarzenia",
+    "url": "/post/tags/wydarzenia/",
+    "target": "_self"
+  },
+  {
+    "label": "Patronaty",
+    "url": "/patronaty/",
+    "target": "_self"
+  },
+  {
+    "label": "Współprace",
+    "url": "/post/tags/wpolprace/",
+    "target": "_self"
+  },
+  {
+    "label": "O nas",
+    "url": "/o-nas/",
+    "target": "_self"
+  },
+  {
+    "label": "Kontakt",
+    "url": "/kontakt/",
+    "target": "_self"
+  }
+]

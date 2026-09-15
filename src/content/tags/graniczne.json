@@ -1,0 +1,15 @@
+{
+  "publiiId": 30,
+  "name": "Graniczne",
+  "description": "<p>Sekcja Wydania 4</p>",
+  "image": {
+    "src": "/media/tags/30/3.-Graniczne.png",
+    "alt": "Graniczne",
+    "width": 8500,
+    "height": 5000
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

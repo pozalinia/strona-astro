@@ -1,0 +1,85 @@
+---
+// Strony (O nas, Kontakt, Patronaty, Wydania i ich podstrony)
+import { getCollection } from 'astro:content';
+import HeroImage from '../components/HeroImage.astro';
+import PostBody from '../components/PostBody.astro';
+import Base from '../layouts/Base.astro';
+import { metaDescription } from '../lib/content';
+import { authorUrl, getPages, pageUrl, type Page } from '../lib/site';
+
+export async function getStaticPaths() {
+  const pages = await getPages();
+  return pages.map((page) => ({ params: { slug: pageUrl(page).slice(1, -1) }, props: { page } }));
+}
+
+interface Props {
+  page: Page;
+}
+
+const { page } = Astro.props;
+const { data } = page;
+const image = data.featuredImage;
+const authors = await getCollection('authors');
+const author = authors.find((entry) => entry.id === data.author);
+---
+
+<Base bodyClass="page-template" title={data.metaTitle} description={data.metaDescription || metaDescription(page.body ?? '')}>
+  {
+    data.template === 'empty' ? (
+      <main class="page">
+        <div class="content">
+          <div class="hero">
+            <div class="hero__content hero__content--centered">
+              <div class="wrapper">
+                <h1>{data.title}</h1>
+              </div>
+            </div>
+            {image && <HeroImage image={image} wrapper={false} />}
+          </div>
+          <div class="wrapper content__entry content__entry--nospace">
+            <PostBody entry={page} />
+          </div>
+        </div>
+      </main>
+    ) : (
+      <main class="page">
+        <article class="content">
+          <div class:list={['hero', { 'hero--noimage': !image }]}>
+            <header class="hero__content hero__content--centered">
+              <div class="wrapper">
+                <h1>{data.title}</h1>
+                {data.displayAuthor && author && (
+                  <div class="feed__meta content__meta content__meta--centered">
+                    <a href={authorUrl(author.id)} class="feed__author">
+                      {author.data.name}
+                    </a>
+                  </div>
+                )}
+              </div>
+            </header>
+            {image && <HeroImage image={image} />}
+          </div>
+          <div class="entry-wrapper content__entry">
+            <PostBody entry={page} />
+          </div>
+          {data.displayAuthorBio && author && (
+            <footer class="content__footer">
+              <div class="entry-wrapper">
+                <div class="content__bio bio">
+                  <div>
+                    <h3 class="h4 bio__name">
+                      <a href={authorUrl(author.id)} rel="author">
+                        {author.data.name}
+                      </a>
+                    </h3>
+                    {author.data.description && <div class="bio__desc" set:html={author.data.description} />}
+                  </div>
+                </div>
+              </div>
+            </footer>
+          )}
+        </article>
+      </main>
+    )
+  }
+</Base>

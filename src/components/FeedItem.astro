@@ -1,0 +1,47 @@
+---
+import { excerpt, IMAGE_SIZES, srcset } from '../lib/content';
+import { postUrl, type Post } from '../lib/site';
+
+interface Props {
+  post: Post;
+  centered?: boolean;
+  /** Lista wszystkich wpisów (/post/) ma obrazek w linku */
+  linkImage?: boolean;
+}
+
+const { post, centered = true, linkImage = false } = Astro.props;
+const url = postUrl(post.id);
+const image = post.data.featuredImage;
+const set = image ? srcset(image.src, 'feed') : undefined;
+const imageAttrs = image && {
+  src: image.src,
+  srcset: set,
+  sizes: set ? IMAGE_SIZES.feed : undefined,
+  loading: 'lazy' as const,
+  height: image.height,
+  width: image.width,
+  alt: image.alt,
+};
+---
+
+<article class:list={['feed__item', { 'feed__item--centered': centered }]}>
+  {
+    imageAttrs && (
+      <figure class="feed__image">
+        {linkImage ? (
+          <a href={url}>
+            <img {...imageAttrs} />
+          </a>
+        ) : (
+          <img {...imageAttrs} />
+        )}
+      </figure>
+    )
+  }
+  <div class="feed__content">
+    <header>
+      <h2 class="feed__title"><a href={url}>{post.data.title}</a></h2>
+    </header>
+    <p set:html={excerpt(post.body ?? '')} />
+  </div>
+</article>

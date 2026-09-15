@@ -1,0 +1,15 @@
+{
+  "publiiId": 5,
+  "name": "Przestrzenie otwarte",
+  "description": "<p>Sekcja Wydania 2</p>",
+  "image": {
+    "src": "/media/tags/5/4.-otwarte.jpg",
+    "alt": "Przestrzenie otwarte",
+    "width": 4267,
+    "height": 2114
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

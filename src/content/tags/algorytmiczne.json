@@ -1,0 +1,15 @@
+{
+  "publiiId": 27,
+  "name": "Algorytmiczne",
+  "description": "<p>Sekcja Wydania 4</p>",
+  "image": {
+    "src": "/media/tags/27/4.-Algorytmiczne.png",
+    "alt": "Algorytmiczne",
+    "width": 8501,
+    "height": 5001
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

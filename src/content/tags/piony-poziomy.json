@@ -1,0 +1,14 @@
+{
+  "publiiId": 9,
+  "name": "PIONY // POZIOMY",
+  "description": "<p>Sekcja Wydania 1</p>",
+  "image": {
+    "src": "/media/tags/9/piony_dark.png",
+    "width": 2084,
+    "height": 1032
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

@@ -1,0 +1,14 @@
+{
+  "publiiId": 33,
+  "name": "2.1.",
+  "image": {
+    "src": "/media/tags/28/2.-Biologiczne.png",
+    "alt": "Biologiczne",
+    "width": 8501,
+    "height": 5000
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

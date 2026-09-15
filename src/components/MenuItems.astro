@@ -1,0 +1,49 @@
+---
+export interface MenuItem {
+  label: string;
+  url?: string;
+  title?: string;
+  target?: string;
+  rel?: string;
+  cssClass?: string;
+  items?: MenuItem[];
+}
+
+interface Props {
+  items: MenuItem[];
+  level?: number;
+}
+
+const { items, level = 1 } = Astro.props;
+const current = Astro.url.pathname;
+const isActive = (url?: string) => !!url && (url === current || (url !== '/' && current.startsWith(`${url}page/`)));
+const classesFor = (item: MenuItem) =>
+  [item.cssClass, item.items?.length ? 'has-submenu' : '', isActive(item.url) ? 'active' : '']
+    .filter(Boolean)
+    .join(' ') || undefined;
+---
+
+<ul class={level > 1 ? `navbar__submenu level-${level}` : 'navbar__menu'} aria-hidden={level > 1 ? 'true' : undefined}>
+  {
+    items.map((item) => (
+      <li class={classesFor(item)}>
+        {item.url ? (
+          <a
+            href={item.url}
+            title={item.title}
+            target={item.target}
+            rel={item.rel}
+            aria-haspopup={item.items?.length ? 'true' : undefined}
+          >
+            {item.label}
+          </a>
+        ) : (
+          <span class="is-separator" title={item.title} aria-haspopup={item.items?.length ? 'true' : undefined}>
+            {item.label}
+          </span>
+        )}
+        {item.items?.length ? <Astro.self items={item.items} level={level + 1} /> : null}
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,346 @@
+<meta name="theme-color" content="#17181E" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#D73A42" media="(prefers-color-scheme: light)"><meta name="msapplication-navbutton-color" content="#D73A42"><meta name="apple-mobile-web-app-status-bar-style" content="#D73A42"><style id="wcag-toolbar-css">/* ====================================================
+       Przyciski wyzwalające (wspólna baza)
+       ==================================================== */
+    .wcag-trigger {
+        align-items: center;
+        appearance: none;
+        cursor: pointer;
+        display: inline-flex;
+        justify-content: center;
+        line-height: 1;
+    }
+    .wcag-trigger svg {
+        display: block;
+        fill: currentColor;
+        flex-shrink: 0;
+        pointer-events: none;
+    }
+    .wcag-trigger[aria-expanded="true"] {
+        background-color: var(--color, #D73A42) !important;
+        border-color: var(--color, #D73A42) !important;
+        color: var(--helper, #fff) !important;
+    }
+
+    /* --- Tryb "menu": sama ikona jest przyciskiem (bez ramki).
+           Kolor ikony: --wcag-icon-color jest ustawiana skryptem
+           na podstawie ZMIERZONEJ jasności tła nagłówka — ikona
+           zawsze kontrastuje, niezależnie od trybu/ustawień motywu. */
+    .wcag-trigger--menu {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 50%;
+        color: var(--wcag-icon-color, var(--nav-link-color, var(--dark, #17181E)));
+        flex-shrink: 0;
+        height: 2.75rem; /* 44px — wygodny cel dotykowy */
+        margin: 0 0 0 0.75rem;
+        order: 4; /* desktop: za nawigacją */
+        padding: 0;
+        width: 2.75rem;
+    }
+    .wcag-trigger--menu:hover,
+    .wcag-trigger--menu:focus {
+        background: transparent !important;
+        border: none !important;
+        color: var(--color, #D73A42);
+    }
+    .wcag-trigger--menu[aria-expanded="true"] {
+        background: transparent !important;
+        border: none !important;
+        color: var(--color, #D73A42) !important;
+    }
+
+    /* --- Mobile: ikona zostaje w nagłówku, po LEWEJ stronie hamburgera
+           (.navbar ma order:3, więc order:2 stawia nas przed nim) --- */
+    @media all and (max-width: 56.1875em) {
+        .wcag-trigger--menu {
+            margin: 0 0.25rem 0 0;
+            order: 2;
+        }
+    }
+
+    /* --- Tryb "edge": zakładka przypięta do prawej krawędzi --- */
+    .wcag-trigger--edge {
+        background: var(--page-bg, #fff);
+        border: 1px solid var(--light, #CACBCF);
+        border-right: none;
+        border-radius: 999px 0 0 999px;
+        color: var(--dark, #17181E);
+        padding: 0.7rem 0.55rem 0.7rem 0.7rem;
+        position: fixed;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 9998;
+    }
+    .wcag-trigger--edge:hover,
+    .wcag-trigger--edge:focus {
+        background: var(--page-bg, #fff);
+        border-color: var(--dark, #17181E);
+        color: var(--dark, #17181E);
+    }
+
+    /* --- Tryb "floating": jak przycisk "do góry" motywu --- */
+    .wcag-trigger--floating {
+        background: var(--page-bg, #fff);
+        border: 1px solid var(--light, #CACBCF);
+        border-radius: 50%;
+        bottom: calc(var(--baseline, 0.28333rem) * 5 + 4.2rem);
+        color: var(--dark, #17181E);
+        height: 3rem;
+        padding: 0;
+        position: fixed;
+        right: 2rem;
+        width: 3rem;
+        z-index: 9998;
+    }
+    @media all and (min-width: 56.25em) {
+        .wcag-trigger--floating { bottom: calc(var(--baseline, 0.28333rem) * 10 + 4.2rem); }
+    }
+    .wcag-trigger--floating:hover,
+    .wcag-trigger--floating:focus {
+        background: var(--page-bg, #fff);
+        border-color: var(--dark, #17181E);
+        color: var(--dark, #17181E);
+    }
+
+    /* ====================================================
+       Panel — wzorzec .content__share-popup motywu
+       ==================================================== */
+    .wcag-panel {
+        background: var(--lighter, #F3F3F3);
+        border-radius: calc(var(--border-radius, 3px) * 4);
+        box-shadow: 0 3px 30px rgba(0,0,0,.12);
+        display: none;
+        flex-direction: column;
+        gap: 0.4rem;
+        max-width: calc(100vw - 2rem);
+        padding: 1rem 0.85rem;
+        width: 14.5rem;
+        z-index: 100001;
+    }
+    .wcag-panel.is-visible { display: flex; }
+    .wcag-panel__title {
+        color: var(--headings-color, #17181E);
+        font-family: var(--heading-font, inherit);
+        font-size: 0.88rem;
+        font-variation-settings: "wght" var(--font-weight-bold, 600);
+        font-weight: 600;
+        margin: 0 0 0.25rem 0.15rem;
+    }
+
+    /* Pozycjonowanie panelu zależnie od trybu */
+    .wcag-panel--menu {
+        position: absolute;
+        right: var(--page-margin, 6vw);
+        top: calc(100% + 0.4rem);
+    }
+    /* Na mobile panel otwiera się na środku ekranu (nad sidebarem) */
+    @media all and (max-width: 56.1875em) {
+        .wcag-panel--menu {
+            left: 50%;
+            position: fixed;
+            right: auto;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .wcag-panel--edge {
+        position: fixed;
+        right: 3.6rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .wcag-panel--floating {
+        bottom: calc(var(--baseline, 0.28333rem) * 5 + 8rem);
+        position: fixed;
+        right: 2rem;
+    }
+    @media all and (min-width: 56.25em) {
+        .wcag-panel--floating { bottom: calc(var(--baseline, 0.28333rem) * 10 + 8rem); }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .wcag-panel.is-visible {
+            animation: wcag-popup .48s cubic-bezier(.17,.67,.6,1.34) backwards;
+        }
+        .wcag-panel--edge.is-visible {
+            animation-name: wcag-popup-side;
+        }
+        @media all and (max-width: 56.1875em) {
+            .wcag-panel--menu.is-visible { animation-name: wcag-popup-center; }
+        }
+        @keyframes wcag-popup {
+            from { transform: scale(.92); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+        @keyframes wcag-popup-side {
+            from { transform: translateY(-50%) scale(.92); opacity: 0; }
+            to   { transform: translateY(-50%) scale(1);   opacity: 1; }
+        }
+        @keyframes wcag-popup-center {
+            from { transform: translate(-50%, -50%) scale(.92); opacity: 0; }
+            to   { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+        }
+        .wcag-trigger { transition: all .24s ease-out; }
+    }
+
+    /* Przyciski funkcji w panelu i pasku — 1:1 jak .btn motywu.
+       margin:0 !important neutralizuje regułę motywu
+       "button + button { margin-left/bottom }", która przesuwała
+       kolejne przyciski i robiła z panelu schodki. */
+    .wcag-panel button,
+    .wcag-bar button {
+        align-items: center;
+        appearance: none;
+        background: transparent;
+        border: 1px solid var(--dark, #17181E);
+        border-radius: calc(var(--border-radius, 3px) * 10);
+        box-sizing: border-box;
+        color: var(--dark, #17181E);
+        cursor: pointer;
+        display: inline-flex;
+        font-family: var(--menu-font, inherit);
+        font-size: 0.824rem;
+        font-variation-settings: "wght" var(--font-weight-bold, 600);
+        height: 44px;
+        justify-content: center;
+        margin: 0 !important;
+        padding: 0.35rem 0.85rem;
+        white-space: nowrap;
+    }
+    .wcag-panel button { width: 100%; }
+    .wcag-panel button:hover,
+    .wcag-panel button:focus,
+    .wcag-bar button:hover,
+    .wcag-bar button:focus {
+        background-color: var(--dark, #17181E);
+        color: var(--helper, #fff);
+    }
+    .wcag-panel button[aria-pressed="true"],
+    .wcag-bar button[aria-pressed="true"] {
+        background-color: var(--color, #D73A42);
+        border-color: var(--color, #D73A42);
+        color: var(--helper, #fff);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+        .wcag-panel button, .wcag-bar button { transition: all .24s ease-out; }
+    }
+
+    /* ====================================================
+       Pasek (tryby top / bottom / static)
+       ==================================================== */
+    .wcag-bar {
+        position: sticky; top: 0;
+        align-items: center;
+        background: var(--page-bg, #fff);
+        border-bottom: 1px solid var(--light, #CACBCF);
+        color: var(--text-color, #17181E);
+        display: flex;
+        flex-wrap: wrap;
+        font-family: var(--menu-font, inherit);
+        font-size: 0.824rem;
+        gap: 0.45rem;
+        line-height: 1.4;
+        padding: 0.45rem var(--page-margin, 1rem);
+        z-index: 9998;
+    }
+    .wcag-bar__label {
+        font-variation-settings: "wght" var(--font-weight-bold, 600);
+        font-weight: 600;
+        margin-right: 0.35rem;
+    }
+
+    /* ===== Skip link (WCAG 2.4.1) ===== */
+    .wcag-skip-link {
+        background: var(--dark, #17181E);
+        color: var(--helper, #fff);
+        font-family: var(--menu-font, inherit);
+        left: -10000px;
+        padding: 0.6rem 1.2rem;
+        position: absolute;
+        text-decoration: underline;
+        top: 0;
+        z-index: 100002;
+    }
+    .wcag-skip-link:focus { left: 0; }
+
+    /* ===== Tryb wysokiego kontrastu (WCAG 1.4.6) ===== */
+    html.wcag-hc body,
+    html.wcag-hc body * {
+        background-color: #000 !important;
+        background-image: none !important;
+        color: #fff !important;
+        border-color: #fff !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    html.wcag-hc a,
+    html.wcag-hc a * {
+        color: #ffd500 !important;
+        text-decoration: underline !important;
+    }
+    html.wcag-hc img,
+    html.wcag-hc video,
+    html.wcag-hc iframe,
+    html.wcag-hc svg {
+        background-color: transparent !important;
+        opacity: 0.92;
+    }
+    html.wcag-hc .wcag-panel button[aria-pressed="true"],
+    html.wcag-hc .wcag-bar button[aria-pressed="true"],
+    html.wcag-hc .wcag-trigger[aria-expanded="true"] {
+        background-color: #ffd500 !important;
+        color: #000 !important;
+    }
+
+    /* ===== Powiększanie tekstu (WCAG 1.4.4) ===== */
+    html.wcag-text1 { font-size: calc(var(--font-size, 1.1rem) * 1.125) !important; }
+    html.wcag-text2 { font-size: calc(var(--font-size, 1.1rem) * 1.25) !important; }
+
+    /* ===== Czytelna typografia (WCAG 1.4.12 Text Spacing) ===== */
+    html.wcag-readable body,
+    html.wcag-readable body p,
+    html.wcag-readable body li {
+        line-height: 1.7 !important;
+        letter-spacing: 0.12em !important;
+        word-spacing: 0.16em !important;
+        text-align: left !important;
+        hyphens: none !important;
+    }
+    html.wcag-readable body p { margin-bottom: 2em !important; }
+    html.wcag-readable #justify { text-align: left !important; }
+
+    /* ===== Podkreślanie linków (WCAG 1.4.1) ===== */
+    html.wcag-underline body a {
+        text-decoration: underline !important;
+        text-underline-offset: 0.15em;
+    }
+    
+    /* WCAG 2.4.7 — widoczny fokus w kolorze akcentu motywu */
+    :focus-visible {
+        outline: 3px solid var(--color, #D73A42) !important;
+        outline-offset: 3px !important;
+    }
+    html.wcag-hc :focus-visible {
+        outline-color: #ffd500 !important;
+    }
+
+    .wcag-visually-hidden {
+        position: absolute !important;
+        width: 1px; height: 1px;
+        margin: -1px; padding: 0; border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        overflow: hidden;
+        white-space: nowrap;
+    }</style><script>(function () {
+        try {
+            var p = JSON.parse(localStorage.getItem('wcagToolbarPrefs') || '{}');
+            var h = document.documentElement;
+            if (p.hc) { h.classList.add('wcag-hc'); }
+            if (p.size === 1) { h.classList.add('wcag-text1'); }
+            if (p.size === 2) { h.classList.add('wcag-text2'); }
+            if (p.readable) { h.classList.add('wcag-readable'); }
+            if (p.underline) { h.classList.add('wcag-underline'); }
+        } catch (e) {}
+    })();</script>

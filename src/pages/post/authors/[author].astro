@@ -1,0 +1,39 @@
+---
+import FeedItem from '../../../components/FeedItem.astro';
+import Base from '../../../layouts/Base.astro';
+import { getLookups, isListed, SITE, type Author, type Post } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  const { posts, authors } = await getLookups();
+  return authors.flatMap((author) => {
+    const own = posts.filter((post) => post.data.author === author.id);
+    // Publii tworzy stronę każdej osoby z wpisem (także ukrytym), ale listuje tylko widoczne wpisy
+    return own.length ? [{ params: { author: author.id }, props: { author, posts: own.filter(isListed) } }] : [];
+  });
+}
+
+interface Props {
+  author: Author;
+  posts: Post[];
+}
+
+const { author, posts } = Astro.props;
+---
+
+<Base bodyClass="author-template" title={`Author: ${author.data.name} - ${SITE.name}`} robots="noindex, follow">
+  <main class="page page--author">
+    <div class="hero hero--noimage">
+      <header class="hero__content">
+        <div class="wrapper page--author__wrapper">
+          <div>
+            <h1>{author.data.name}</h1>
+            {author.data.description && <div class="page__desc" set:html={author.data.description} />}
+          </div>
+        </div>
+      </header>
+    </div>
+    <div class="wrapper feed">
+      {posts.map((post) => <FeedItem post={post} centered={false} />)}
+    </div>
+  </main>
+</Base>

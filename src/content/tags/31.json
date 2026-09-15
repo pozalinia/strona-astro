@@ -1,0 +1,14 @@
+{
+  "publiiId": 35,
+  "name": "3.1.",
+  "image": {
+    "src": "/media/tags/30/3.-Graniczne.png",
+    "alt": "Graniczne",
+    "width": 8500,
+    "height": 5000
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

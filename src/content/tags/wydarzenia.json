@@ -1,0 +1,9 @@
+{
+  "publiiId": 23,
+  "name": "Wydarzenia",
+  "description": "<p>Tutaj znajdziesz przeszłe i przyszłe wydarzenia organizowane przez nas.</p>",
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

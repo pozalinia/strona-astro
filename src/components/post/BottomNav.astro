@@ -1,0 +1,33 @@
+---
+import { postUrl, type Post } from '../../lib/site';
+
+interface Props {
+  prev?: Post;
+  next?: Post;
+  release?: Post;
+  review?: Post;
+  /** Szablon tekstu nie ma stylu na strzałce „wstecz” */
+  plainPrev?: boolean;
+}
+
+const { prev, next, release, review, plainPrev = false } = Astro.props;
+---
+
+<nav
+  class="bottom"
+  style="display: flex; justify-content: space-around; align-items:center; margin-bottom: 1rem; font-size: 2rem; margin-top: 2rem"
+>
+  {
+    prev &&
+      (plainPrev ? (
+        <a href={postUrl(prev.id)} id="goprev">◁</a>
+      ) : (
+        <a href={postUrl(prev.id)} id="goprev" style="text-decoration: none">◁</a>
+      ))
+  }
+  <div style="display: flex; margin: 0; gap: 2rem">
+    {release && <a href={postUrl(release.id)} style="font-size: 1rem; text-align: right">{release.data.title}</a>}{' '}
+    {review &&<a href={postUrl(review.id)} style="font-size: 1rem; text-align: left">{review.data.title}</a>}
+  </div>
+  {next && <a href={postUrl(next.id)} id="gonext" style="text-decoration: none">▷</a>}
+</nav>

@@ -1,0 +1,29 @@
+---
+// Domyślny szablon wpisu z motywu Publii (post.hbs) – m.in. strony wydań i wydarzeń
+import HeroImage from '../HeroImage.astro';
+import PostBody from '../PostBody.astro';
+import type { Post } from '../../lib/site';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const image = post.data.featuredImage;
+---
+
+<main class="post">
+  <article class="content">
+    <div class:list={['hero', { 'hero--noimage': !image }]}>
+      <header class="hero__content hero__content--centered">
+        <div class="wrapper">
+          <h1>{post.data.title}</h1>
+        </div>
+      </header>
+      {image && <HeroImage image={image} />}
+    </div>
+    <div class="entry-wrapper content__entry">
+      <PostBody entry={post} />
+    </div>
+  </article>
+</main>

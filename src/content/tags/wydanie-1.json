@@ -1,0 +1,15 @@
+{
+  "publiiId": 1,
+  "name": "Wydanie 1 „Geometrie”",
+  "description": "<p>Geometrie</p>",
+  "image": {
+    "src": "/media/tags/1/poza_linia_okladka.png",
+    "alt": "Wydanie 1 „Geometrie”",
+    "width": 2084,
+    "height": 1043
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

@@ -1,0 +1,14 @@
+{
+  "publiiId": 12,
+  "name": "FUNKCJE & FALE",
+  "description": "<p>Sekcja Wydania 1</p>",
+  "image": {
+    "src": "/media/tags/12/funkcje_dark.png",
+    "width": 2084,
+    "height": 1032
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

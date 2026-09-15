@@ -1,0 +1,15 @@
+{
+  "publiiId": 6,
+  "name": "Przestrzenie mityczne",
+  "description": "<p>Sekcja Wydania 2</p>",
+  "image": {
+    "src": "/media/tags/6/5.-mityczne.jpg",
+    "alt": "Przestrzenie mityczne",
+    "width": 4268,
+    "height": 2114
+  },
+  "displayFeaturedImage": true,
+  "displayPostCounter": false,
+  "displayDescription": false,
+  "displayPostList": true
+}

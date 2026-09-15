@@ -1,0 +1,24 @@
+---
+import bodyEnd from '../data/publii/body-end.html?raw';
+import copyright from '../data/publii/footer.html?raw';
+import toggleBio from '../data/publii/toggle-bio.html?raw';
+import { asset } from '../lib/content';
+
+interface Props {
+  bioToggle?: boolean;
+}
+
+const { bioToggle = false } = Astro.props;
+---
+
+<footer class="footer">
+  <div class="wrapper">
+    <div class="footer__copyright"><Fragment set:html={copyright} /></div>
+    <button id="backToTop" class="footer__bttop" aria-label="Wróć na górę strony" title="Wróć na górę strony">
+      <svg width="20" height="20"><use xlink:href="/assets/svg/svg-map.svg#toparrow"></use></svg>
+    </button>
+  </div>
+</footer>
+<script is:inline defer src={asset('/assets/js/scripts.min.js')}></script>
+<Fragment set:html={bodyEnd} />
+{bioToggle && <Fragment set:html={toggleBio} />}
