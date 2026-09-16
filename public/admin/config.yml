@@ -88,7 +88,7 @@ collections:
         label: Notatka redakcyjna
         widget: string
         required: false
-        hint: "Widoczna tylko w CMS (na liście wpisów obok tytułu), nie na stronie. Przydaje się przy tekstach bez tytułu, np. ***."
+        hint: "Pokazuje się w CMS obok tytułu oraz na listach tekstów na stronie (u autora, na stronach tagów) w nawiasie kwadratowym, np. *** [Recenzja …]. Nie ma jej na stronie samego tekstu."
       - name: date
         label: Data publikacji
         widget: datetime
@@ -309,7 +309,7 @@ collections:
         label: Notatka redakcyjna
         widget: string
         required: false
-        hint: "Widoczna tylko w CMS (na liście wpisów obok tytułu), nie na stronie. Przydaje się przy tekstach bez tytułu, np. ***."
+        hint: "Pokazuje się w CMS obok tytułu oraz na listach tekstów na stronie (u autora, na stronach tagów) w nawiasie kwadratowym, np. *** [Recenzja …]. Nie ma jej na stronie samego tekstu."
       - name: date
         label: Data publikacji
         widget: datetime

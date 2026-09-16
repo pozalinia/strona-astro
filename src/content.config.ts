@@ -19,7 +19,7 @@ const posts = defineCollection({
   schema: z.object({
     publiiId: z.number().optional(),
     title: z.string(),
-    /** Notatka widoczna tylko w CMS, np. przy tytule *** */
+    /** Notatka przy tytule (np. ***): w CMS i na listach wpisów w [nawiasie] */
     note: z.string().optional(),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
