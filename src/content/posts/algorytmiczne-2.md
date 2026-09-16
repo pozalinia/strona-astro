@@ -1,5 +1,6 @@
 ---
-title: "*** <!--Recenzja Sawickiej - Algorytmiczne-->"
+title: "***"
+note: "Recenzja Sawickiej - Algorytmiczne"
 date: "2026-09-15T10:27:00Z"
 updated: "2026-09-15T10:27:00Z"
 author: "magdalena-sawicka"

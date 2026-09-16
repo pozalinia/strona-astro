@@ -1,5 +1,6 @@
 ---
-title: "*** <!--Recenzja Hoffmanna - Graniczne-->"
+title: "***"
+note: "Recenzja Hoffmanna - Graniczne"
 date: "2026-09-15T10:15:00Z"
 updated: "2026-09-15T10:15:00Z"
 author: "krzysztof-hoffmann"

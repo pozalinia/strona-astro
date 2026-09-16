@@ -1,6 +1,7 @@
 ---
 publiiId: 208
-title: "*** <!--Recenzja Dawida do Tkanki rakowe-->"
+title: "***"
+note: "Recenzja Dawida do Tkanki rakowe"
 date: "2026-06-04T15:52:22Z"
 updated: "2026-06-13T09:03:05Z"
 author: "dawid-kujawa"

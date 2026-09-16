@@ -1,6 +1,7 @@
 ---
 publiiId: 218
-title: "*** <!--Recenzja Hoffmana - Cielesne-->"
+title: "***"
+note: "Recenzja Hoffmana - Cielesne"
 date: "2026-09-14T18:16:38Z"
 updated: "2026-09-14T18:45:50Z"
 author: "krzysztof-hoffmann"

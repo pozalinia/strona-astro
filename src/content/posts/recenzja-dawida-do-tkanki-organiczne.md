@@ -1,6 +1,7 @@
 ---
 publiiId: 207
-title: "*** <!--Recenzja Dawida do Tkanki organiczne-->"
+title: "***"
+note: "Recenzja Dawida do Tkanki organiczne"
 date: "2026-06-04T15:49:46Z"
 updated: "2026-09-14T18:17:37Z"
 author: "dawid-kujawa"
