@@ -8,10 +8,11 @@
 
 <section class="pl-consent" id="pl-consent" role="region" aria-label="Zgoda na statystyki odwiedzin" tabindex="-1" hidden>
   <div class="pl-consent__inner">
+    {/* Spacje jako {' '} – kompresja HTML w Astro usuwa złamania wierszy między znacznikami a tekstem. */}
     <p class="pl-consent__text">
-      <strong>Statystyki odwiedzin.</strong>
-      Za Twoją zgodą używamy Google Analytics (pliki cookie), żeby wiedzieć, co czytacie, i rozwijać czasopismo.
-      Bez zgody nic nie trafia do Google. Wybór zmienisz w stopce („Ustawienia cookies”).
+      <strong>Statystyki odwiedzin.</strong>{' '}
+      Za Twoją zgodą używamy Google Analytics (pliki cookie), żeby wiedzieć, co czytacie, i rozwijać czasopismo.{' '}
+      Bez zgody nic nie trafia do Google. Wybór zmienisz w stopce („Ustawienia cookies”).{' '}
       <a href="/polityka-prywatnosci/">Polityka prywatności</a>
     </p>
     <p class="pl-consent__status" id="pl-consent-status"></p>
