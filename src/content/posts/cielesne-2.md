@@ -1,15 +1,24 @@
 ---
 publiiId: 218
 title: "***"
-note: "Recenzja Hoffmana - Cielesne"
-date: "2026-09-14T18:16:38Z"
-updated: "2026-09-14T18:45:50Z"
+note: "Recenzja Krzysztofa Hoffmana - Cielesne"
+date: "2026-09-14T20:16:00"
+updated: "2026-09-14T20:45:00"
 author: "krzysztof-hoffmann"
 template: "review"
-tags: ["recenzje", "wydanie-4-rezonanse", "cielesne", "12"]
+tags:
+  - "recenzje"
+  - "wydanie-4-rezonanse"
+  - "cielesne"
+  - "12"
 mainTag: "12"
+draft: false
+hidden: false
 excludeFromHomepage: true
+featured: false
 secondTextTitle: "***"
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 
