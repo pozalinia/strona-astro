@@ -6,7 +6,6 @@ author: "bartosz-danisiewicz"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "biologiczne"]
 mainTag: "biologiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "menazeria"
 nextPost: "butin-podlasie-paryz"

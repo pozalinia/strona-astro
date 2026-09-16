@@ -7,7 +7,6 @@ author: "ewelina-cis"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "nie-umieraj-bez-kolacji-fragm"
 nextPost: "tkanka-tluszczowa-odklada-ci-sie-w-glowie"

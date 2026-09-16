@@ -6,7 +6,6 @@ author: "franek-dziduch"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "algorytmiczne"]
 mainTag: "algorytmiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "wsobnosc"
 nextPost: "roztopiency"

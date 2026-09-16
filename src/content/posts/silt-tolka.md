@@ -6,7 +6,6 @@ author: "luiza-dubicka"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "biologiczne"]
 mainTag: "biologiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "butin-podlasie-paryz"
 nextPost: "szew"

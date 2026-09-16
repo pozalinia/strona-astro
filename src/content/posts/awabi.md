@@ -6,7 +6,6 @@ author: "joanna-mueller"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "algorytmiczne"]
 mainTag: "algorytmiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "solo"
 nextPost: "blask"

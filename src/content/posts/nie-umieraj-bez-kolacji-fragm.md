@@ -7,7 +7,6 @@ author: "adam-buszek"
 template: "review"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "cielesne"
 nextPost: "metoda-32"

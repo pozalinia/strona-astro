@@ -7,7 +7,6 @@ author: "justyna-szewczuk"
 template: "review"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "kielich"
 nextPost: "biologiczne"

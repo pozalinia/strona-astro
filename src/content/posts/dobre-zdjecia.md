@@ -9,7 +9,6 @@ tags:
   - "algorytmiczne"
 mainTag: "algorytmiczne"
 draft: false
-hidden: true
 excludeFromHomepage: true
 featured: false
 prevPost: "blask"

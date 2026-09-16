@@ -6,7 +6,6 @@ author: "jakub-wojtala"
 template: "review"
 tags: ["wydanie-4-rezonanse", "algorytmiczne"]
 mainTag: "algorytmiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "humanistyka-i-narkonautyka"
 nextPost: "wydanie-4-rezonanse-19092026"

@@ -6,7 +6,6 @@ author: "agnieszka-waligora"
 template: "review"
 tags: ["wydanie-4-rezonanse", "graniczne"]
 mainTag: "graniczne"
-hidden: true
 excludeFromHomepage: true
 customTitle: "Konstytucja wszystkiego (Hanna Jankuta, <em>Konstytucja</em>, przeł. Bohdan Zadura, Warsztaty Kultury 2026)"
 prevPost: "scysja-pod-lasem-3"

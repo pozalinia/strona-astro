@@ -7,7 +7,6 @@ author: "admin"
 template: "text"
 tags: ["przedmowa", "wydanie-4-rezonanse"]
 mainTag: "wydanie-4-rezonanse"
-hidden: true
 excludeFromHomepage: true
 metaTitle: "Przedmowa"
 prevPost: "wydanie-4-rezonanse-19092026"

@@ -6,7 +6,6 @@ author: "amelia-pudzianowska"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "graniczne"]
 mainTag: "graniczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "lipiec"
 nextPost: "klatka"

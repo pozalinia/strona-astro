@@ -6,7 +6,6 @@ author: "morgan-toporynski"
 template: "review"
 tags: ["wydanie-4-rezonanse", "graniczne"]
 mainTag: "graniczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "islam-inc"
 nextPost: "lipiec"

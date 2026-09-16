@@ -6,7 +6,6 @@ author: "weronika-stepkowska"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "algorytmiczne"]
 mainTag: "algorytmiczne"
-hidden: true
 excludeFromHomepage: true
 customTitle: "KRÓTKA HISTORIA PRZEDMIOTU<br>ROZ SPRAWY"
 prevPost: "dobre-zdjecia"

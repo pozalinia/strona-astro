@@ -7,7 +7,6 @@ author: "olga-juskowiak"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "nie-zgodzil-sie-na-maje-przy"
 nextPost: "zarzad-nie-ma-az-tyle-czasu"

@@ -7,7 +7,6 @@ author: "sylwia-walicka"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "zaswieca-sie-oczy"
 nextPost: "ten-obraz-jest-czarny"

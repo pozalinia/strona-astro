@@ -7,7 +7,6 @@ author: "krzysztof-hoffmann"
 template: "review"
 tags: ["recenzje", "wydanie-4-rezonanse", "cielesne", "12"]
 mainTag: "12"
-hidden: true
 excludeFromHomepage: true
 secondTextTitle: "***"
 format: "html"

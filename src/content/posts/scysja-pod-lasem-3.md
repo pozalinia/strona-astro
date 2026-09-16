@@ -6,7 +6,6 @@ author: "pawel-kondratowicz"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "graniczne"]
 mainTag: "graniczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "scysja-pod-lasem-2"
 nextPost: "konstytucja-wszystkiego"

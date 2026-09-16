@@ -6,7 +6,6 @@ author: "mikolaj-krzysiek"
 template: "review"
 tags: ["wydanie-4-rezonanse", "biologiczne"]
 mainTag: "biologiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "szew"
 nextPost: "komunikat"

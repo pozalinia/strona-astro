@@ -6,7 +6,6 @@ author: "krzysztof-hoffmann"
 template: "review"
 tags: ["recenzje", "wydanie-4-rezonanse", "graniczne", "32"]
 mainTag: "32"
-hidden: true
 excludeFromHomepage: true
 secondTextTitle: "***"
 format: "html"

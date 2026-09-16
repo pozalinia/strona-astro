@@ -7,7 +7,6 @@ author: "m-p-hardy-wlasc-maciej-proksa"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "zarzad-nie-ma-az-tyle-czasu"
 nextPost: "kielich"

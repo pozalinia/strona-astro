@@ -6,7 +6,6 @@ author: "magdalena-sawicka"
 template: "review"
 tags: ["recenzje", "wydanie-4-rezonanse", "algorytmiczne", "42"]
 mainTag: "42"
-hidden: true
 excludeFromHomepage: true
 secondTextTitle: "***"
 format: "html"

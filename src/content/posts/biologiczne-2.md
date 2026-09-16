@@ -6,7 +6,6 @@ author: "magdalena-sawicka"
 template: "review"
 tags: ["recenzje", "wydanie-4-rezonanse", "biologiczne", "22"]
 mainTag: "22"
-hidden: true
 excludeFromHomepage: true
 secondTextTitle: "***"
 format: "html"
