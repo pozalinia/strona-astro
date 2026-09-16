@@ -1,16 +1,24 @@
 ---
 publiiId: 207
 title: "***"
-note: "Recenzja Dawida do Tkanki organiczne"
-date: "2026-06-04T15:49:46Z"
-updated: "2026-09-14T18:17:37Z"
+note: "Recenzja Dawida Kujawy do Tkanki organiczne"
+date: "2026-06-04T17:49:00"
+updated: "2026-09-14T20:17:00"
 author: "dawid-kujawa"
 template: "review"
-tags: ["recenzje", "wydanie-3-tkanki", "tkanki-organiczne"]
+tags:
+  - "recenzje"
+  - "wydanie-3-tkanki"
+  - "tkanki-organiczne"
 mainTag: "recenzje"
+draft: false
+hidden: false
 excludeFromHomepage: true
+featured: false
 metaTitle: "***"
 secondTextTitle: "***"
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 
