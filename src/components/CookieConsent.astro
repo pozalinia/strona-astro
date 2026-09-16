@@ -1,0 +1,322 @@
+---
+// Baner zgody na Google Analytics (RODO, tryb „blokuj do zgody”).
+// Do czasu kliknięcia „Akceptuję” strona nie wysyła żadnych zapytań do Google.
+// Wybór jest zapisany w localStorage osobno dla każdej domeny i wygasa po 12 miesiącach.
+// Identyfikatory strumieni: zmienne PUBLIC_GA_ID_POZALINIA i PUBLIC_GA_ID_POZALINIA_IDN
+// (Cloudflare Pages → Settings → Variables) – wstawiane przy budowaniu strony.
+---
+
+<section class="pl-consent" id="pl-consent" role="region" aria-label="Zgoda na statystyki odwiedzin" tabindex="-1" hidden>
+  <div class="pl-consent__inner">
+    <p class="pl-consent__text">
+      <strong>Statystyki odwiedzin.</strong>
+      Za Twoją zgodą używamy Google Analytics (pliki cookie), żeby wiedzieć, co czytacie, i rozwijać czasopismo.
+      Bez zgody nic nie trafia do Google. Wybór zmienisz w stopce („Ustawienia cookies”).
+      <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+    </p>
+    <p class="pl-consent__status" id="pl-consent-status"></p>
+    <div class="pl-consent__actions">
+      <button type="button" class="pl-consent__btn" data-consent="granted">Akceptuję</button>
+      <button type="button" class="pl-consent__btn" data-consent="denied">Odrzucam</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { cookieBaseDomain, gaIdForHost } from '../lib/analytics.js';
+
+  const STORAGE_KEY = 'pl-consent';
+  const MAX_AGE_MONTHS = 12;
+  const GA_ID = gaIdForHost(location.hostname, {
+    POZALINIA: import.meta.env.PUBLIC_GA_ID_POZALINIA,
+    POZALINIA_IDN: import.meta.env.PUBLIC_GA_ID_POZALINIA_IDN,
+  });
+
+  type Choice = 'granted' | 'denied';
+
+  const banner = document.getElementById('pl-consent') as HTMLElement | null;
+  const status = document.getElementById('pl-consent-status');
+  let opener: HTMLElement | null = null;
+  let gaLoaded = false;
+  let resizeObserver: ResizeObserver | null = null;
+
+  function readChoice(): Choice | null {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+      if (!saved || (saved.value !== 'granted' && saved.value !== 'denied')) return null;
+      const expires = new Date(saved.date);
+      expires.setMonth(expires.getMonth() + MAX_AGE_MONTHS);
+      if (Number.isNaN(expires.getTime()) || expires <= new Date()) {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      return saved.value;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveChoice(value: Choice) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ value, date: new Date().toISOString() }));
+    } catch {
+      // Tryb prywatny / zablokowany localStorage – wybór obowiązuje do końca wizyty.
+    }
+  }
+
+  function loadGoogleAnalytics(id: string) {
+    if (gaLoaded) return;
+    gaLoaded = true;
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    // gtag musi przekazywać obiekt `arguments`, nie tablicę.
+    w.gtag = function gtag() {
+      // eslint-disable-next-line prefer-rest-params
+      w.dataLayer.push(arguments);
+    };
+    w.gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    });
+    w.gtag('js', new Date());
+    w.gtag('consent', 'update', { analytics_storage: 'granted' });
+    w.gtag('config', id, { cookie_domain: 'auto' });
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+    document.head.appendChild(script);
+  }
+
+  function deleteAnalyticsCookies() {
+    const names = document.cookie
+      .split(';')
+      .map((part) => part.split('=')[0].trim())
+      .filter((name) => name === '_ga' || name.startsWith('_ga_'));
+    const host = location.hostname;
+    const domains = ['', host, `.${host}`, cookieBaseDomain(host)];
+    for (const name of names) {
+      for (const domain of domains) {
+        if (domain === null) continue;
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain ? `; domain=${domain}` : ''}`;
+      }
+    }
+  }
+
+  function keepContentVisible() {
+    if (!banner) return;
+    document.body.style.paddingBottom = `${banner.offsetHeight}px`;
+  }
+
+  function showBanner(fromOpener: HTMLElement | null) {
+    if (!banner) return;
+    opener = fromOpener;
+    const current = readChoice();
+    if (status) {
+      status.textContent =
+        current === 'granted' ? 'Obecnie: zgoda wyrażona.' : current === 'denied' ? 'Obecnie: zgoda odrzucona.' : '';
+      status.hidden = !current;
+    }
+    banner.hidden = false;
+    keepContentVisible();
+    window.addEventListener('resize', keepContentVisible);
+    if ('ResizeObserver' in window) {
+      resizeObserver ??= new ResizeObserver(keepContentVisible);
+      resizeObserver.observe(banner);
+    }
+    // Przy otwarciu ze stopki przenosimy fokus do banera; przy pierwszej wizycie nie zabieramy go.
+    if (fromOpener) banner.focus();
+  }
+
+  function hideBanner() {
+    if (!banner) return;
+    resizeObserver?.disconnect();
+    window.removeEventListener('resize', keepContentVisible);
+    banner.hidden = true;
+    document.body.style.paddingBottom = '';
+    const target =
+      opener && document.contains(opener) ? opener : (document.querySelector('main') as HTMLElement | null);
+    if (target) {
+      if (target === opener) {
+        target.focus();
+      } else {
+        if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+      }
+    }
+    opener = null;
+  }
+
+  function choose(value: Choice) {
+    const previous = readChoice();
+    saveChoice(value);
+
+    if (value === 'granted') {
+      hideBanner();
+      if (GA_ID) loadGoogleAnalytics(GA_ID);
+      return;
+    }
+
+    if (previous === 'granted' || gaLoaded) {
+      const w = window as any;
+      if (typeof w.gtag === 'function') w.gtag('consent', 'update', { analytics_storage: 'denied' });
+      deleteAnalyticsCookies();
+      location.reload();
+      return;
+    }
+    hideBanner();
+  }
+
+  if (banner) {
+    banner.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-consent]');
+      if (button) choose(button.dataset.consent as Choice);
+    });
+
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-consent-open]');
+      if (!trigger) return;
+      event.preventDefault();
+      showBanner(trigger);
+    });
+
+    if (!GA_ID) {
+      console.info(`Google Analytics wyłączone: brak identyfikatora pomiaru dla hosta ${location.hostname}.`);
+    }
+
+    const choice = readChoice();
+    if (choice === null) {
+      showBanner(null);
+    } else if (choice === 'granted' && GA_ID) {
+      loadGoogleAnalytics(GA_ID);
+    }
+  }
+</script>
+
+<style is:global>
+  /* Kolory z palety motywu (style.css): zmieniają się z prefers-color-scheme i html[data-theme]. */
+  .pl-consent {
+    background: var(--lighter);
+    border-top: 2px solid var(--dark);
+    bottom: 0;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+    color: var(--text-color);
+    font-size: 1rem;
+    left: 0;
+    line-height: 1.5;
+    max-height: 60vh;
+    overflow-y: auto;
+    position: fixed;
+    right: 0;
+    z-index: 10000;
+  }
+  .pl-consent[hidden] {
+    display: none;
+  }
+  .pl-consent:focus {
+    outline: none;
+  }
+  .pl-consent:focus-visible {
+    outline: 3px solid var(--color) !important;
+    outline-offset: -3px;
+  }
+  .pl-consent__inner {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin: 0 auto;
+    max-width: var(--page-width);
+    padding: 0.75rem var(--page-margin);
+  }
+  .pl-consent__text {
+    flex: 1 1 28rem;
+    margin: 0;
+  }
+  @media (max-width: 37.4375em) {
+    .pl-consent {
+      font-size: 0.9375rem;
+    }
+  }
+  .pl-consent__text strong {
+    color: var(--headings-color);
+  }
+  .pl-consent__text a {
+    color: var(--link-color);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+  .pl-consent__text a:hover {
+    color: var(--link-color-hover);
+  }
+  .pl-consent__status {
+    flex: 1 1 100%;
+    font-weight: 600;
+    margin: 0;
+    order: 1;
+  }
+  .pl-consent__actions {
+    display: flex;
+    flex: 1 1 16rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    max-width: 24rem;
+    width: 100%;
+  }
+  /* Oba przyciski wyglądają tak samo – żaden wybór nie jest wyróżniony. */
+  .pl-consent .pl-consent__btn,
+  .pl-consent .pl-consent__btn + .pl-consent__btn {
+    background: var(--dark);
+    border: 2px solid var(--dark);
+    border-radius: var(--border-radius);
+    color: var(--helper);
+    flex: 1 1 8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    justify-content: center;
+    margin: 0;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.25rem;
+    width: auto;
+  }
+  .pl-consent .pl-consent__btn:hover,
+  .pl-consent .pl-consent__btn:active {
+    background: var(--lighter);
+    color: var(--dark);
+  }
+  /* style.css zeruje tło elementów z :focus-visible – przywracamy czytelny przycisk. */
+  .pl-consent .pl-consent__btn:focus-visible {
+    background: var(--lighter) !important;
+    color: var(--dark);
+    outline: 3px solid var(--color) !important;
+    outline-offset: 2px;
+  }
+
+  .footer__consent {
+    font-size: 0.8239746086rem;
+    margin: var(--baseline) 0 0;
+  }
+  .footer__consent a,
+  .footer .footer__consent-btn {
+    color: var(--link-color);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+  .footer .footer__consent-btn {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    display: inline;
+    font: inherit;
+    margin: 0 0 0 1rem;
+    padding: 0;
+    width: auto;
+  }
+  .footer .footer__consent-btn:hover,
+  .footer .footer__consent-btn:focus {
+    background: none;
+    color: var(--link-color-hover);
+  }
+</style>
