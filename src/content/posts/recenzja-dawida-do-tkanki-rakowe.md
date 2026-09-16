@@ -1,16 +1,24 @@
 ---
 publiiId: 208
 title: "***"
-note: "Recenzja Dawida do Tkanki rakowe"
-date: "2026-06-04T15:52:22Z"
-updated: "2026-06-13T09:03:05Z"
+note: "Recenzja Dawida Kujawy do Tkanki rakowe"
+date: "2026-06-04T17:52:00"
+updated: "2026-06-13T11:03:00"
 author: "dawid-kujawa"
 template: "review"
-tags: ["recenzje", "wydanie-3-tkanki", "tkanki-rakowe"]
+tags:
+  - "recenzje"
+  - "wydanie-3-tkanki"
+  - "tkanki-rakowe"
 mainTag: "recenzje"
+draft: false
+hidden: false
 excludeFromHomepage: true
+featured: false
 metaTitle: "***"
 secondTextTitle: "***"
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 
