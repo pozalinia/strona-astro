@@ -18,6 +18,6 @@ const description = author.data.description;
       <a href={authorUrl(author.id)} rel="author">{author.data.name}</a>{' '}
       {description &&<span class="js-bio-toggle" onclick="toggleBio(this)">+</span>}
     </Heading>
-    {description && <div class="bio__desc" style="display: none; margin-top: 10px;" set:html={description} />}
+    {description && <div class="bio__desc" style="display: none; margin-top: 10px; overflow-wrap: anywhere;" set:html={description} />}
   </div>
 </div>

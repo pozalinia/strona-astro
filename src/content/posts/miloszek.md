@@ -1,17 +1,23 @@
 ---
-title: "Miłoszek (fragment powieści Oznaki życia)"
+title: "Miłoszek (fragm. powieści Oznaki życia)"
 date: "2026-09-15T10:42:00Z"
 updated: "2026-09-15T10:42:00Z"
 author: "jakub-wojtala"
 template: "review"
-tags: ["wydanie-4-rezonanse", "algorytmiczne"]
+tags:
+  - "wydanie-4-rezonanse"
+  - "algorytmiczne"
 mainTag: "algorytmiczne"
+draft: false
 hidden: true
 excludeFromHomepage: true
+featured: false
 prevPost: "humanistyka-i-narkonautyka"
 nextPost: "wydanie-4-rezonanse-19092026"
 releasePost: "wydanie-4-rezonanse-19092026"
 reviewPost: "algorytmiczne"
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 

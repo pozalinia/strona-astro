@@ -40,7 +40,7 @@ const imageAttrs = image && {
   }
   <div class="feed__content">
     <header>
-      <h2 class="feed__title"><a href={url}>{post.data.title}</a></h2>
+      <h2 class="feed__title"><a href={url}>{post.data.title}{post.data.note && ` [${post.data.note}]`}</a></h2>
     </header>
     <p set:html={excerpt(post.body ?? '')} />
   </div>

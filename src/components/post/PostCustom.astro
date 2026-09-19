@@ -108,3 +108,71 @@ const secondTitleStyle = 'text-align: center; margin-bottom: 2rem;';
     }
   </article>
 </main>
+
+{
+  template === 'poem' && (
+    <>
+      <div class="poem-scrollbar" hidden aria-hidden="true"><div /></div>
+      <script is:inline>
+        // Wiersze się nie zawijają (układ linii ma znaczenie). Na komputerze natywny pasek
+        // przewijania jest na samym dole wiersza, więc gdy go nie widać, pokazujemy
+        // przyklejony do dołu ekranu pasek zsynchronizowany z wierszem.
+        (function () {
+          if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+          var poem = document.querySelector('.post-poetary');
+          var bar = document.querySelector('.poem-scrollbar');
+          if (!poem || !bar) return;
+          var inner = bar.firstElementChild;
+          function update() {
+            var overflow = poem.scrollWidth - poem.clientWidth > 1;
+            var atEnd = poem.scrollLeft + poem.clientWidth >= poem.scrollWidth - 1;
+            poem.classList.toggle('post-poetary--end', !overflow || atEnd);
+            var r = poem.getBoundingClientRect();
+            var show = overflow && r.top < innerHeight - 40 && r.bottom > innerHeight;
+            bar.hidden = !show;
+            if (!show) return;
+            bar.style.left = r.left + 'px';
+            bar.style.width = r.width + 'px';
+            inner.style.width = poem.scrollWidth + 'px';
+            if (bar.scrollLeft !== poem.scrollLeft) bar.scrollLeft = poem.scrollLeft;
+          }
+
+          poem.addEventListener('scroll', update, { passive: true });
+          bar.addEventListener('scroll', function () {
+            if (poem.scrollLeft !== bar.scrollLeft) poem.scrollLeft = bar.scrollLeft;
+          }, { passive: true });
+          addEventListener('scroll', update, { passive: true });
+          addEventListener('resize', update);
+          addEventListener('load', update);
+          update();
+        })();
+      </script>
+    </>
+  )
+}
+
+<style is:global>
+  .post-poetary.post-poetary--end {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+  .post-poetary,
+  .poem-scrollbar {
+    scrollbar-color: var(--gray, #57585a) transparent;
+  }
+  .poem-scrollbar {
+    background: var(--page-bg, #fff);
+    bottom: 0;
+    height: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: fixed;
+    z-index: 50;
+  }
+  .poem-scrollbar[hidden] {
+    display: none;
+  }
+  .poem-scrollbar > div {
+    height: 1px;
+  }
+</style>

@@ -7,7 +7,6 @@ author: "magdalena-sawicka"
 template: "review"
 tags: ["recenzje", "wydanie-4-rezonanse", "cielesne", "11"]
 mainTag: "11"
-hidden: true
 excludeFromHomepage: true
 coauthor: "krzysztof-hoffmann"
 coauthorText: "cielesne-2"

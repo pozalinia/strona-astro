@@ -1,14 +1,23 @@
 ---
-title: "*** <!--Recenzja Sawickiej - Algorytmiczne-->"
+title: "***"
+note: "Recenzja Magdaleny Sawickiej - Algorytmiczne"
 date: "2026-09-15T10:27:00Z"
 updated: "2026-09-15T10:27:00Z"
 author: "magdalena-sawicka"
 template: "review"
-tags: ["recenzje", "wydanie-4-rezonanse", "algorytmiczne", "42"]
+tags:
+  - "recenzje"
+  - "wydanie-4-rezonanse"
+  - "algorytmiczne"
+  - "42"
 mainTag: "42"
-hidden: true
+draft: false
+hidden: false
 excludeFromHomepage: true
+featured: false
 secondTextTitle: "***"
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 

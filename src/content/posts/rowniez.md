@@ -6,7 +6,6 @@ author: "bartosz-marzec"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "biologiczne"]
 mainTag: "biologiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "komunikat"
 nextPost: "przypowiesc-o-krowach-i-trawach-pasterz-cos-kreci"

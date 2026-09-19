@@ -6,7 +6,6 @@ author: "grzegorz-tomicki"
 template: "review"
 tags: ["wydanie-4-rezonanse", "algorytmiczne"]
 mainTag: "algorytmiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "krotka-historia-przedmiotu"
 nextPost: "miloszek"

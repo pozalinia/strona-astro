@@ -9,4 +9,10 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  vite: {
+    build: {
+      // Skrypt banera cookies jako jeden plik w /_astro/ (cache), a nie kopia w każdym HTML
+      assetsInlineLimit: 0,
+    },
+  },
 });

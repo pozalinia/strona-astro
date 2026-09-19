@@ -6,7 +6,6 @@ author: "redakcja"
 template: "default"
 tags: ["spis-osob-autorskich", "wydanie-4-rezonanse"]
 mainTag: "spis-osob-autorskich"
-hidden: true
 excludeFromHomepage: true
 customTitle: "Osoby autorskie"
 format: "html"

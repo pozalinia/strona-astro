@@ -52,7 +52,7 @@ collections:
       value: [markdown, null]
     identifier_field: title
     slug: "{{slug}}"
-    summary: "{{title}}"
+    summary: "{{title}}{{note | ternary('  ·  ', '')}}{{note | default('')}}"
     sortable_fields: [date, title]
     view_filters: &post_view_filters
       - label: Wiersze
@@ -84,6 +84,11 @@ collections:
       - name: title
         label: Tytuł
         widget: string
+      - name: note
+        label: Notatka redakcyjna
+        widget: string
+        required: false
+        hint: "Pokazuje się w CMS obok tytułu oraz na listach tekstów na stronie (u autora, na stronach tagów) w nawiasie kwadratowym, np. *** [Recenzja …]. Nie ma jej na stronie samego tekstu."
       - name: date
         label: Data publikacji
         widget: datetime
@@ -284,7 +289,7 @@ collections:
     create: false
     identifier_field: title
     slug: "{{slug}}"
-    summary: "{{title}}"
+    summary: "{{title}}{{note | ternary('  ·  ', '')}}{{note | default('')}}"
     sortable_fields: [date, title]
     view_filters: *post_view_filters
     view_groups: *post_view_groups
@@ -300,6 +305,11 @@ collections:
       - name: title
         label: Tytuł
         widget: string
+      - name: note
+        label: Notatka redakcyjna
+        widget: string
+        required: false
+        hint: "Pokazuje się w CMS obok tytułu oraz na listach tekstów na stronie (u autora, na stronach tagów) w nawiasie kwadratowym, np. *** [Recenzja …]. Nie ma jej na stronie samego tekstu."
       - name: date
         label: Data publikacji
         widget: datetime

@@ -7,7 +7,6 @@ author: "nikoleta-saluk-kopel"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "metoda-32"
 nextPost: "sciegi"

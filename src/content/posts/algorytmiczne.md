@@ -6,7 +6,6 @@ author: "krzysztof-hoffmann"
 template: "review"
 tags: ["recenzje", "wydanie-4-rezonanse", "algorytmiczne", "41"]
 mainTag: "41"
-hidden: true
 excludeFromHomepage: true
 coauthor: "magdalena-sawicka"
 coauthorText: "algorytmiczne-2"

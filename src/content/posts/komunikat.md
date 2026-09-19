@@ -6,7 +6,6 @@ author: "mikolaj-krzysiek"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "biologiczne"]
 mainTag: "biologiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "makroplastik"
 nextPost: "rowniez"

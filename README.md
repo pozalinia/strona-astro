@@ -23,8 +23,8 @@ src/content/pages/     strony: O nas, Kontakt, Patronaty, Wydania
 src/content/tags/      tagi: numery, działy, wydarzenia (.json)
 src/content/authors/   osoby autorskie z biogramami (.json)
 src/data/menu.json     menu główne
-src/data/publii/       stopka oraz kod wtyczek Publii (pasek WCAG, baner cookies, Google Analytics)
-src/components/        elementy motywu: nagłówek, stopka, listy, szablony wpisów
+src/data/publii/       stopka oraz kod wtyczek Publii (pasek WCAG)
+src/components/        elementy motywu: nagłówek, stopka, listy, szablony wpisów, baner zgody (CookieConsent)
 src/pages/             adresy stron
 src/lib/               reguły list i przetwarzanie treści (srcset, zajawki, meta description)
 public/assets/         CSS, JS i SVG motywu
@@ -32,6 +32,7 @@ public/media/          obrazki wraz z wariantami responsive/ wygenerowanymi prze
 public/admin/          panel redakcyjny Sveltia CMS (index.html + config.yml)
 public/_worker.js      Worker Cloudflare: biogramy redakcji i patronaty z Google Sheets
 scripts/               migracja z Publii i porównanie z Publii
+tests/                 testy (`npm test`): wybór strumienia GA wg domeny
 ```
 
 ## Wpisy
@@ -117,3 +118,14 @@ uprawnień do zapisu w repozytorium `pozalinia/strona-astro`.
 4. Przepięcie domeny `pozalinia.pl` na nowy projekt. Publii zostaje jako kopia zapasowa na kilka tygodni.
 
 `public/_worker.js` trafia do `dist/`, więc Pages działa w trybie Workera tak jak dotychczas.
+
+## Google Analytics i zgoda (RODO)
+
+Strona działa pod `pozalinia.pl` i `pozalinią.pl` (bez przekierowań). Każda domena ma własny strumień GA4:
+zmienne `PUBLIC_GA_ID_POZALINIA` i `PUBLIC_GA_ID_POZALINIA_IDN` w ustawieniach Cloudflare Pages (wstawiane przy
+budowaniu – po zmianie trzeba przebudować stronę). Mapa host → zmienna: `src/lib/analytics.js`; na innych hostach
+(`*.pages.dev`, localhost) GA się nie ładuje.
+
+`src/components/CookieConsent.astro` (wpięty w `Base.astro`) nie pobiera niczego z Google przed kliknięciem
+„Akceptuję”. Wybór jest w `localStorage` (`pl-consent`) przez 12 miesięcy, osobno na każdej domenie;
+„Ustawienia cookies” w stopce otwiera baner ponownie. Nie wklejaj kodu `gtag` do treści ani szablonów.

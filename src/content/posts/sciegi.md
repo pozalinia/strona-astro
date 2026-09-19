@@ -7,7 +7,6 @@ author: "aleksandra-kusnierkiewicz"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "tkanka-tluszczowa-odklada-ci-sie-w-glowie"
 nextPost: "zaswieca-sie-oczy"

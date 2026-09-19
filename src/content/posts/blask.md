@@ -6,7 +6,6 @@ author: "slawomir-platek"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "algorytmiczne"]
 mainTag: "algorytmiczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "awabi"
 nextPost: "dobre-zdjecia"

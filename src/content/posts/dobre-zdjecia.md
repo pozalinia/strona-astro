@@ -4,19 +4,24 @@ date: "2026-09-15T10:39:00Z"
 updated: "2026-09-15T10:39:00Z"
 author: "slawomir-platek"
 template: "poem"
-tags: ["wydanie-4-rezonanse", "algorytmiczne"]
+tags:
+  - "wydanie-4-rezonanse"
+  - "algorytmiczne"
 mainTag: "algorytmiczne"
-hidden: true
+draft: false
 excludeFromHomepage: true
+featured: false
 prevPost: "blask"
 nextPost: "krotka-historia-przedmiotu"
 releasePost: "wydanie-4-rezonanse-19092026"
 reviewPost: "algorytmiczne"
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 
-<p class="align-right"><em>Jesteś konstruktorem destruktów. Tylko w usterce ocala się przyzwoitość faktu.</em></p>
-<p class="align-right">SI Gemini</p>
+<p class="align-right"><em>Jesteś konstruktorem destruktów. Tylko w usterce ocala się przyzwoitość faktu.</em>
+<br>SI Gemini</p>
 <p> </p>
 <p> </p>
 <p>Widziałem dobre zdjęcia. Wiele,</p>

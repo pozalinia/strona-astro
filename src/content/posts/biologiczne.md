@@ -6,7 +6,6 @@ author: "krzysztof-hoffmann"
 template: "review"
 tags: ["recenzje", "wydanie-4-rezonanse", "biologiczne", "21"]
 mainTag: "21"
-hidden: true
 excludeFromHomepage: true
 coauthor: "magdalena-sawicka"
 coauthorText: "biologiczne-2"

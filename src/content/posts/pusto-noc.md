@@ -6,7 +6,6 @@ author: "daria-magdalena-marzec"
 template: "review"
 tags: ["wydanie-4-rezonanse", "graniczne"]
 mainTag: "graniczne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "konstytucja-wszystkiego"
 nextPost: "algorytmiczne"

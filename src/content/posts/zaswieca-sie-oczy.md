@@ -7,7 +7,6 @@ author: "aleksandra-kusnierkiewicz"
 template: "poem"
 tags: ["wydanie-4-rezonanse", "cielesne"]
 mainTag: "cielesne"
-hidden: true
 excludeFromHomepage: true
 prevPost: "sciegi"
 nextPost: "nie-zgodzil-sie-na-maje-przy"

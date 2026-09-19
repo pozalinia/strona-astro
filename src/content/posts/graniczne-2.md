@@ -1,14 +1,23 @@
 ---
-title: "*** <!--Recenzja Hoffmanna - Graniczne-->"
+title: "***"
+note: "Recenzja Krzysztofa Hoffmana - Graniczne"
 date: "2026-09-15T10:15:00Z"
 updated: "2026-09-15T10:15:00Z"
 author: "krzysztof-hoffmann"
 template: "review"
-tags: ["recenzje", "wydanie-4-rezonanse", "graniczne", "32"]
+tags:
+  - "recenzje"
+  - "wydanie-4-rezonanse"
+  - "graniczne"
+  - "32"
 mainTag: "32"
-hidden: true
+draft: false
+hidden: false
 excludeFromHomepage: true
+featured: false
 secondTextTitle: "***"
+displayCustomNav: true
+displayAuthorBio: false
 format: "html"
 ---
 
