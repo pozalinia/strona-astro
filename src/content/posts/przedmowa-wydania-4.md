@@ -1,6 +1,7 @@
 ---
 publiiId: 216
-title: "Przedmowa wydania 4"
+title: "Przedmowa"
+note: "wydania 4"
 date: "2026-09-14T19:10:00"
 updated: "2026-09-14T19:18:00"
 author: "admin"
