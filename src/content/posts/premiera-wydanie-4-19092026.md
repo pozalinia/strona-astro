@@ -27,7 +27,7 @@ format: "html"
 <p>Tym razem motywem będą „Rezonanse”. W numerze zostaną zaprezentowane teksty 29 osób autorskich. Całość opatrzona jest komentarzem krytycznoliterackim.</p>
 <p>W programie wydarzenia:</p>
 <p>- prezentacja osób autorskich IV numeru,</p>
-<p>- występ komedii improwizowanej (inspirowanej literaturą) - Grupa IMPRO Leniwe Raz!</p>
+<p>- występ komedii improwizowanej (inspirowanej literaturą) - <a href="https://www.facebook.com/leniwerazimpro">Grupa IMPRO Leniwe Raz!</a></p>
 <p>Miejsce i data:</p>
 <p>📆 19 września, 17:00-19:00</p>
 <p>📍Pan Gar, ul. Słowackiego 19/21</p>
