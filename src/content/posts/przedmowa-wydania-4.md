@@ -15,6 +15,7 @@ hidden: false
 excludeFromHomepage: true
 featured: false
 metaTitle: "Przedmowa"
+customTitle: "Przedmowa"
 prevPost: "wydanie-4-rezonanse-19092026"
 nextPost: "cielesne"
 releasePost: "wydanie-4-rezonanse-19092026"
