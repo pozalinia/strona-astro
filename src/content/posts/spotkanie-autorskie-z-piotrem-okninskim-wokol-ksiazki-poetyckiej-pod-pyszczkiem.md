@@ -21,10 +21,10 @@ format: "markdown"
 
 Premierowe spotkanie autorskie z Piotrem Oknińskim wokół książki poetyckiej „Pod pyszczkiem” (AFRONT, 2026).
 
-![📆](https://static.xx.fbcdn.net/images/emoji.php/v9/tff/1/16/1f4c6.png)4 października 2026, godz. 12:15
-![📍](https://static.xx.fbcdn.net/images/emoji.php/v9/t2d/1/16/1f4cd.png)Dom Tramwajarza, ul. Słowackiego 19/21 w Poznaniu
-![🎫](https://static.xx.fbcdn.net/images/emoji.php/v9/tac/1/16/1f3ab.png)Wstęp wolny
-![📚](https://static.xx.fbcdn.net/images/emoji.php/v9/t49/1/16/1f4da.png)Wydarzenie realizowane w ramach 2. Festiwalu Wolnego Słowa.
+4 października 2026, godz. 12:15
+Dom Tramwajarza, ul. Słowackiego 19/21 w Poznaniu
+Wstęp wolny
+Wydarzenie realizowane w ramach 2. Festiwalu Wolnego Słowa.
 
 Dla nieobecnych transmisja będzie na YT czasopisma „Poza Linią”.
 
