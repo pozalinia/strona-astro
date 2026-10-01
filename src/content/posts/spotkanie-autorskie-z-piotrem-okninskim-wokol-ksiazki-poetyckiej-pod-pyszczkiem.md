@@ -35,3 +35,5 @@ ________________________________________
 Piotr Okniński (ur. 1989). Publikował m.in. w „Czasie Literatury”, „biBLiotece” Biura Literackiego i „Suburbiach”. Finalista konkursu „Połów. Poetyckie debiuty” (2024). Członek kolektywu poetyckiego Wcierka. Tom „Pod pyszczkiem” jest jego debiutem poetyckim. Mieszka i pisze w Warszawie.
 
 Spotkanie poprowadzi Aleksandra Górecka
+
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/Jxn-MzrfVuw?si=IiJ2yI5J4dMc7fS8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
