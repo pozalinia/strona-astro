@@ -7,7 +7,7 @@ template: "default"
 tags:
   - "spotkanie-autorskie"
   - "wydarzenia"
-mainTag: "wydarzenia"
+mainTag: "spotkanie-autorskie"
 draft: false
 hidden: false
 excludeFromHomepage: false
@@ -21,12 +21,10 @@ format: "markdown"
 
 <p>Premierowe spotkanie autorskie z Piotrem Oknińskim wokół książki poetyckiej „Pod pyszczkiem” (AFRONT, 2026).</p>
 
-<p>📆4 października 2026, godz. 12:15</p>
-<p>📍Dom Tramwajarza, ul. Słowackiego 19/21 w Poznaniu</p>
-<p>🎫Wstęp wolny</p>
-<p>📚Wydarzenie realizowane w ramach 2. Festiwalu Wolnego Słowa.</p>
-
-<p>Dla nieobecnych transmisja będzie na YT czasopisma „Poza Linią”.</p>
+<p>📆4 października 2026, godz. 12:15
+<br>📍Dom Tramwajarza, ul. Słowackiego 19/21 w Poznaniu
+<br>🎫Wstęp wolny
+<br>📚Wydarzenie realizowane w ramach 2. Festiwalu Wolnego Słowa. <br>🔴Dla nieobecnych transmisja będzie na YT czasopisma „Poza Linią”.</p>
 
 <p>O książce:
 „Tęskniłam do poezji tak bezpretensjonalnie czułej i czujnej; poezji precyzyjnej, potrafiącej nazywać skrajne emocje bez popadania w przesadę i naddatek; do poezji detalu i drobin, pod którymi, jeśli tylko delikatnie, paznokciem, podważyć wierzchnią warstewkę, kryje się rozmach” - Antonina M. Tosiek.
@@ -36,4 +34,4 @@ ________________________________________
 
 <p>Spotkanie poprowadzi Aleksandra Górecka</p>
 
-<p><iframe width="560" height="315" src="https://www.youtube.com/embed/Jxn-MzrfVuw?si=IiJ2yI5J4dMc7fS8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen"></iframe></p>
+<div><iframe width="560" height="315" src="https://www.youtube.com/embed/Jxn-MzrfVuw?si=IiJ2yI5J4dMc7fS8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen"></iframe></div>
