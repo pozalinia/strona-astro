@@ -13,3 +13,15 @@ const Content = isHtml ? undefined : (await render(entry)).Content;
 ---
 
 {isHtml ? <Fragment set:html={enhanceContent(entry.body ?? '')} /> : Content && <Content />}
+
+<style is:global>
+  /* Wpisy w Markdownie (Sveltia) nie przechodzą przez enhanceContent, więc iframe nie dostaje
+     wrappera .post__iframe z proporcjami – bez tego osadzenie ma stałe 560 px szerokości. */
+  .content__entry iframe:not(.post__iframe iframe) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+</style>
