@@ -10,7 +10,7 @@ tags:
 mainTag: "spotkanie-autorskie"
 draft: false
 hidden: false
-excludeFromHomepage: false
+excludeFromHomepage: true
 featured: false
 featuredImage:
   src: "https://scontent.fpoz3-1.fna.fbcdn.net/v/t39.30808-6/800259623_122199710318763527_4488500255040062563_n.jpg?stp=dst-jpg_tt6&cstp=mx1920x1005&ctp=s960x960&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=75d36f&_nc_ohc=YrlCKep802IQ7kNvwH_g4YA&_nc_oc=AdocEq1QIqvfajuvenn86DPLdodxjvkBQIulHFyCzx_nM1aCG5tX9ZSVw0uBzW0cUcU&_nc_zt=23&_nc_ht=scontent.fpoz3-1.fna&_nc_gid=lhXikQI2hvyIi4F18-i5GA&_nc_ss=7b2a8&oh=00_AQNEct4dSv8onTZl2NbKBKqacbA3yVKbpNMM4jf7L-5orA&oe=6AC494B0"
