@@ -28,7 +28,7 @@ format: "markdown"
 
 <p>O książce:
 <br>„Tęskniłam do poezji tak bezpretensjonalnie czułej i czujnej; poezji precyzyjnej, potrafiącej nazywać skrajne emocje bez popadania w przesadę i naddatek; do poezji detalu i drobin, pod którymi, jeśli tylko delikatnie, paznokciem, podważyć wierzchnią warstewkę, kryje się rozmach” - Antonina M. Tosiek.
-<br>„Drżące, eteryczne miniatury Oknińskiego wpisują „poniedziałki lub wtorki” z tygodni, <<w których nie wiedzieliśmy jeszcze, gdzie leży Awdijiwka>> w szczerą opowieść o przeszłości i tym, co z niej budowane” - Jakub Pszoniak.</p>
+<br>„Drżące, eteryczne miniatury Oknińskiego wpisują „poniedziałki lub wtorki” z tygodni, «w których nie wiedzieliśmy jeszcze, gdzie leży Awdijiwka» w szczerą opowieść o przeszłości i tym, co z niej budowane” - Jakub Pszoniak.</p>
 ________________________________________
 <p>Piotr Okniński (ur. 1989). Publikował m.in. w „Czasie Literatury”, „biBLiotece” Biura Literackiego i „Suburbiach”. Finalista konkursu „Połów. Poetyckie debiuty” (2024). Członek kolektywu poetyckiego Wcierka. Tom „Pod pyszczkiem” jest jego debiutem poetyckim. Mieszka i pisze w Warszawie.</p>
 
