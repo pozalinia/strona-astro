@@ -1,5 +1,5 @@
 ---
-// Wyszukiwarka: wyniki liczone w przeglądarce na podstawie /search-index.json
+// Pełna lista wyników wyszukiwania (krótka lista jest w oknie z nagłówka: Search.astro)
 import Base from '../layouts/Base.astro';
 import { SITE } from '../lib/site';
 ---
@@ -14,20 +14,21 @@ import { SITE } from '../lib/site';
       </header>
     </div>
     <div class="wrapper search-page">
-      <form action="/szukaj/" class="search__form search-page__form" role="search" data-search-form>
+      <form action="/szukaj/" class="search-field" role="search" data-search-page-form>
+        <svg width="20" height="20" aria-hidden="true" focusable="false">
+          <use xlink:href="/assets/svg/svg-map.svg#search"></use>
+        </svg>
         <input
-          class="search__input"
           type="search"
           name="q"
-          placeholder="Tytuł, osoba autorska, fragment tekstu…"
+          placeholder="Tytuł, nazwisko lub fragment tekstu…"
           aria-label="Szukaj"
           autocomplete="off"
-          data-search-input
+          data-search-page-input
         />
-        <button type="submit" class="btn">Szukaj</button>
       </form>
-      <p class="search-page__status" role="status" aria-live="polite" data-search-status></p>
-      <div class="search-page__results" data-search-results></div>
+      <p class="search-status" role="status" aria-live="polite" data-search-page-status></p>
+      <div class="search-results" data-search-page-results></div>
       <noscript><p>Wyszukiwarka wymaga włączonej obsługi JavaScript.</p></noscript>
     </div>
   </main>
@@ -37,207 +38,63 @@ import { SITE } from '../lib/site';
   .search-page {
     max-width: var(--entry-width);
     padding-bottom: calc(var(--baseline) * 16);
+    padding-top: calc(var(--baseline) * 10);
   }
-  .search-page__form {
-    align-items: flex-end;
-    gap: 1rem;
+  .search-page .search-field {
+    border: 1px solid var(--gray);
+    border-radius: 999px;
+    padding: 0.8rem 1.4rem;
+    transition: border-color 0.24s ease-out;
   }
-  .search-page__form .search__input {
-    width: 100%;
+  .search-page .search-field:focus-within {
+    border-color: var(--dark);
   }
-  .search-page__status {
-    color: var(--gray);
+  .search-page .search-status {
+    padding: 1rem 1.4rem 0.4rem;
+  }
+  .search-page .search-result {
+    padding: 1rem 1.4rem;
+  }
+  .search-page .search-result + .search-result {
+    margin-top: 0.2rem;
+  }
+  .search-page .search-result__title {
+    font-size: 1.25rem;
+  }
+  .search-page .search-result__meta {
     font-size: 0.8239746086rem;
-    margin-top: calc(var(--baseline) * 4);
-    min-height: 1.7em;
   }
-  .search-result {
-    margin-top: calc(var(--baseline) * 8);
-  }
-  .search-result .feed__title {
-    margin: 0;
-  }
-  .search-result__meta {
-    color: var(--gray);
-    font-family: var(--menu-font);
-    font-size: 0.8239746086rem;
-    margin: calc(var(--baseline) * 1) 0 0;
-  }
-  .search-result__snippet {
-    margin: calc(var(--baseline) * 2) 0 0;
-  }
-  .search-result mark {
-    background: none;
-    color: inherit;
-    font-variation-settings: 'wght' var(--font-weight-bold);
-    font-weight: var(--font-weight-bold);
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
+  .search-page .search-result__snippet {
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
 </style>
 
 <script>
-  interface Entry {
-    url: string;
-    title: string;
-    authors: string;
-    tags: string;
-    text: string;
-  }
-  type Indexed = Entry & { folded: Record<'title' | 'authors' | 'tags' | 'text', string> };
+  import { setupSearch } from '../scripts/search';
 
-  const MAX_RESULTS = 50;
-  const SNIPPET_BEFORE = 70;
-  const SNIPPET_AFTER = 170;
-
-  const FOLD: Record<string, string> = {
-    ą: 'a', ć: 'c', ę: 'e', ł: 'l', ń: 'n', ó: 'o', ś: 's', ź: 'z', ż: 'z',
-    á: 'a', à: 'a', â: 'a', ä: 'a', ç: 'c', é: 'e', è: 'e', ê: 'e', ë: 'e', í: 'i', î: 'i', ï: 'i',
-    ñ: 'n', ô: 'o', ö: 'o', ú: 'u', ù: 'u', û: 'u', ü: 'u', ý: 'y', š: 's', č: 'c', ž: 'z', ř: 'r', ě: 'e',
-  };
-  // Zamiana znak za znak: pozycje w tekście złożonym odpowiadają pozycjom w oryginale (podświetlanie)
-  const fold = (text: string) =>
-    Array.from(text.normalize('NFC'), (char) => {
-      const lower = char.toLowerCase();
-      return lower.length === char.length ? (FOLD[lower] ?? lower) : char;
-    }).join('');
-
-  const escapeHtml = (text: string) =>
-    text.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]!);
-
-  /** Tekst z podświetlonymi wystąpieniami szukanych słów */
-  function highlight(text: string, terms: string[]) {
-    const folded = fold(text);
-    const ranges: [number, number][] = [];
-    for (const term of terms) {
-      for (let at = folded.indexOf(term); at !== -1; at = folded.indexOf(term, at + term.length)) {
-        ranges.push([at, at + term.length]);
-      }
-    }
-    ranges.sort((a, b) => a[0] - b[0]);
-    let out = '';
-    let pos = 0;
-    for (const [start, end] of ranges) {
-      if (start < pos) continue;
-      out += `${escapeHtml(text.slice(pos, start))}<mark>${escapeHtml(text.slice(start, end))}</mark>`;
-      pos = end;
-    }
-    return out + escapeHtml(text.slice(pos));
-  }
-
-  /** Fragment treści wokół pierwszego trafienia (albo początek tekstu) */
-  function snippet(entry: Indexed, terms: string[]) {
-    const text = entry.text.normalize('NFC');
-    const hits = terms.map((term) => entry.folded.text.indexOf(term)).filter((at) => at !== -1);
-    const hit = hits.length ? Math.min(...hits) : 0;
-    let start = Math.max(0, hit - SNIPPET_BEFORE);
-    let end = Math.min(text.length, hit + SNIPPET_AFTER);
-    // Cięcie na granicach słów
-    if (start > 0) start = text.indexOf(' ', start) + 1 || start;
-    if (end < text.length) end = text.lastIndexOf(' ', end) > start ? text.lastIndexOf(' ', end) : end;
-    return (start > 0 ? '…' : '') + highlight(text.slice(start, end), terms) + (end < text.length ? '…' : '');
-  }
-
-  function score(entry: Indexed, terms: string[]) {
-    let total = 0;
-    for (const term of terms) {
-      const { title, authors, tags, text } = entry.folded;
-      const points =
-        (title.includes(term) ? 10 : 0) + (authors.includes(term) ? 6 : 0) + (tags.includes(term) ? 3 : 0) + (text.includes(term) ? 1 : 0);
-      // Każde słowo zapytania musi wystąpić
-      if (!points) return 0;
-      total += points;
-    }
-    return total;
-  }
-
-  const plural = (count: number) => {
-    if (count === 1) return 'wynik';
-    const ones = count % 10;
-    const tens = count % 100;
-    return ones >= 2 && ones <= 4 && (tens < 12 || tens > 14) ? 'wyniki' : 'wyników';
-  };
-
-  const form = document.querySelector<HTMLFormElement>('[data-search-form]');
-  const input = document.querySelector<HTMLInputElement>('[data-search-input]');
-  const status = document.querySelector<HTMLElement>('[data-search-status]');
-  const results = document.querySelector<HTMLElement>('[data-search-results]');
+  const form = document.querySelector<HTMLFormElement>('[data-search-page-form]');
+  const input = document.querySelector<HTMLInputElement>('[data-search-page-input]');
+  const status = document.querySelector<HTMLElement>('[data-search-page-status]');
+  const results = document.querySelector<HTMLElement>('[data-search-page-results]');
 
   if (form && input && status && results) {
-    let index: Promise<Indexed[]> | undefined;
-    const loadIndex = () =>
-      (index ??= fetch('/search-index.json')
-        .then((response) => {
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          return response.json() as Promise<Entry[]>;
-        })
-        .then((entries) =>
-          entries.map((entry) => ({
-            ...entry,
-            folded: { title: fold(entry.title), authors: fold(entry.authors), tags: fold(entry.tags), text: fold(entry.text) },
-          })),
-        ));
-
-    let latest = 0;
-    async function search(query: string) {
-      const run = ++latest;
-      const terms = fold(query).split(/\s+/).filter((term) => term.length > 1);
-      if (!terms.length) {
-        status.textContent = query.trim() ? 'Wpisz co najmniej dwa znaki.' : '';
-        results.innerHTML = '';
-        return;
-      }
-      let entries: Indexed[];
-      try {
-        entries = await loadIndex();
-      } catch {
-        index = undefined;
-        status.textContent = 'Nie udało się wczytać indeksu wyszukiwarki. Spróbuj ponownie.';
-        return;
-      }
-      if (run !== latest) return;
-
-      const found = entries
-        .map((entry, order) => ({ entry, order, points: score(entry, terms) }))
-        .filter((item) => item.points > 0)
-        // Przy remisie kolejność indeksu: od najnowszych
-        .sort((a, b) => b.points - a.points || a.order - b.order);
-
-      status.textContent = found.length
-        ? `${found.length} ${plural(found.length)}` + (found.length > MAX_RESULTS ? ` – pokazujemy pierwsze ${MAX_RESULTS}` : '')
-        : 'Brak wyników.';
-      results.innerHTML = found
-        .slice(0, MAX_RESULTS)
-        .map(({ entry }) => {
-          const meta = [entry.authors, entry.tags].filter(Boolean).map((part) => highlight(part, terms)).join(' · ');
-          return `<article class="search-result">
-            <h2 class="feed__title"><a href="${escapeHtml(entry.url)}">${highlight(entry.title, terms)}</a></h2>
-            ${meta ? `<p class="search-result__meta">${meta}</p>` : ''}
-            ${entry.text ? `<p class="search-result__snippet">${snippet(entry, terms)}</p>` : ''}
-          </article>`;
-        })
-        .join('');
-    }
-
-    const setUrl = (query: string) => {
-      const url = new URL(location.href);
-      if (query) url.searchParams.set('q', query);
-      else url.searchParams.delete('q');
-      history.replaceState(null, '', url);
-    };
-
-    let timer: number | undefined;
-    input.addEventListener('input', () => {
-      clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        setUrl(input.value.trim());
-        search(input.value);
-      }, 150);
+    const search = setupSearch({
+      input,
+      status,
+      results,
+      limit: 50,
+      snippet: [70, 170],
+      // Adres z zapytaniem: wyniki da się odświeżyć i podać dalej
+      onResults(query) {
+        const url = new URL(location.href);
+        if (query) url.searchParams.set('q', query);
+        else url.searchParams.delete('q');
+        history.replaceState(null, '', url);
+      },
     });
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      clearTimeout(timer);
-      setUrl(input.value.trim());
       search(input.value);
     });
 

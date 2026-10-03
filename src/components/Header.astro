@@ -2,6 +2,7 @@
 import menu from '../data/menu.json';
 import { SITE } from '../lib/site';
 import MenuItems, { type MenuItem } from './MenuItems.astro';
+import Search from './Search.astro';
 ---
 
 <header class="top js-header">
@@ -16,20 +17,5 @@ import MenuItems, { type MenuItem } from './MenuItems.astro';
     </button>
     <MenuItems items={menu as MenuItem[]} />
   </nav>
-  <!-- Znaczniki z motywu Publii: otwieranie nakładki obsługuje scripts.min.js -->
-  <div class="search">
-    <div class="search__overlay js-search-overlay">
-      <div class="search__overlay-inner">
-        <form action="/szukaj/" class="search__form" role="search">
-          <input class="search__input" type="search" name="q" placeholder="Szukaj…" aria-label="Szukaj" />
-          <button type="submit" class="btn">Szukaj</button>
-        </form>
-      </div>
-    </div>
-    <button class="search__btn js-search-btn" aria-label="Szukaj">
-      <svg width="18" height="18" role="presentation" focusable="false">
-        <use xlink:href="/assets/svg/svg-map.svg#search"></use>
-      </svg>
-    </button>
-  </div>
+  <Search />
 </header>
