@@ -8,8 +8,8 @@ tags:
   - "spotkanie-autorskie"
   - "wydarzenia"
 mainTag: "spotkanie-autorskie"
-draft: true
-hidden: true
+draft: false
+hidden: false
 excludeFromHomepage: true
 featured: false
 featuredImage:
@@ -24,7 +24,7 @@ format: "markdown"
 <p>📆4 października 2026, godz. 12:15
 <br>📍Dom Tramwajarza, ul. Słowackiego 19/21 w Poznaniu
 <br>🎫Wstęp wolny
-<br>📚Wydarzenie realizowane w ramach 2. Festiwalu Wolnego Słowa. <br>🔴Dla nieobecnych transmisja będzie na YT czasopisma „Poza Linią”.</p>
+<br>📚Wydarzenie realizowane w ramach 2. Festiwalu Wolnego Słowa. </p>
 
 <p>O książce:
 <br>„Tęskniłam do poezji tak bezpretensjonalnie czułej i czujnej; poezji precyzyjnej, potrafiącej nazywać skrajne emocje bez popadania w przesadę i naddatek; do poezji detalu i drobin, pod którymi, jeśli tylko delikatnie, paznokciem, podważyć wierzchnią warstewkę, kryje się rozmach” - Antonina M. Tosiek.
@@ -33,5 +33,3 @@ ________________________________________
 <p>Piotr Okniński (ur. 1989). Publikował m.in. w „Czasie Literatury”, „biBLiotece” Biura Literackiego i „Suburbiach”. Finalista konkursu „Połów. Poetyckie debiuty” (2024). Członek kolektywu poetyckiego Wcierka. Tom „Pod pyszczkiem” jest jego debiutem poetyckim. Mieszka i pisze w Warszawie.</p>
 
 <p>Spotkanie poprowadzi Aleksandra Górecka</p>
-
-<p><iframe width="560" height="315" src="https://www.youtube.com/embed/Jxn-MzrfVuw?si=IiJ2yI5J4dMc7fS8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen"></iframe></p>
