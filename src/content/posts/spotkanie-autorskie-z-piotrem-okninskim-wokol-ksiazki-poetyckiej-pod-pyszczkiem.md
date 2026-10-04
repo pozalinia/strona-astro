@@ -8,8 +8,8 @@ tags:
   - "spotkanie-autorskie"
   - "wydarzenia"
 mainTag: "spotkanie-autorskie"
-draft: false
-hidden: false
+draft: true
+hidden: true
 excludeFromHomepage: true
 featured: false
 featuredImage:
