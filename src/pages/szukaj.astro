@@ -1,0 +1,106 @@
+---
+// Pełna lista wyników wyszukiwania (krótka lista jest w oknie z nagłówka: Search.astro)
+import Base from '../layouts/Base.astro';
+import { SITE } from '../lib/site';
+---
+
+<Base bodyClass="search-template" title={`Szukaj - ${SITE.name}`} robots="noindex, follow">
+  <main class="posts">
+    <div class="hero hero--noimage">
+      <header class="hero__content hero__content--centered">
+        <div class="wrapper">
+          <h1>Szukaj</h1>
+        </div>
+      </header>
+    </div>
+    <div class="wrapper search-page">
+      <form action="/szukaj/" class="search-field" role="search" data-search-page-form>
+        <svg width="20" height="20" aria-hidden="true" focusable="false">
+          <use xlink:href="/assets/svg/svg-map.svg#search"></use>
+        </svg>
+        <input
+          type="search"
+          name="q"
+          placeholder="Tytuł, nazwisko lub fragment tekstu…"
+          aria-label="Szukaj"
+          autocomplete="off"
+          data-search-page-input
+        />
+      </form>
+      <p class="search-status" role="status" aria-live="polite" data-search-page-status></p>
+      <div class="search-results" data-search-page-results></div>
+      <noscript><p>Wyszukiwarka wymaga włączonej obsługi JavaScript.</p></noscript>
+    </div>
+  </main>
+</Base>
+
+<style is:global>
+  .search-page {
+    max-width: var(--entry-width);
+    padding-bottom: calc(var(--baseline) * 16);
+    padding-top: calc(var(--baseline) * 10);
+  }
+  .search-page .search-field {
+    border: 1px solid var(--gray);
+    border-radius: 999px;
+    padding: 0.8rem 1.4rem;
+    transition: border-color 0.24s ease-out;
+  }
+  .search-page .search-field:focus-within {
+    border-color: var(--dark);
+  }
+  .search-page .search-status {
+    padding: 1rem 1.4rem 0.4rem;
+  }
+  .search-page .search-result {
+    padding: 1rem 1.4rem;
+  }
+  .search-page .search-result + .search-result {
+    margin-top: 0.2rem;
+  }
+  .search-page .search-result__title {
+    font-size: 1.25rem;
+  }
+  .search-page .search-result__meta {
+    font-size: 0.8239746086rem;
+  }
+  .search-page .search-result__snippet {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+</style>
+
+<script>
+  import { setupSearch } from '../scripts/search';
+
+  const form = document.querySelector<HTMLFormElement>('[data-search-page-form]');
+  const input = document.querySelector<HTMLInputElement>('[data-search-page-input]');
+  const status = document.querySelector<HTMLElement>('[data-search-page-status]');
+  const results = document.querySelector<HTMLElement>('[data-search-page-results]');
+
+  if (form && input && status && results) {
+    const search = setupSearch({
+      input,
+      status,
+      results,
+      limit: 50,
+      snippet: [70, 170],
+      // Adres z zapytaniem: wyniki da się odświeżyć i podać dalej
+      onResults(query) {
+        const url = new URL(location.href);
+        if (query) url.searchParams.set('q', query);
+        else url.searchParams.delete('q');
+        history.replaceState(null, '', url);
+      },
+    });
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      search(input.value);
+    });
+
+    const initial = new URLSearchParams(location.search).get('q') ?? '';
+    input.value = initial;
+    if (initial) search(initial);
+    else input.focus();
+  }
+</script>

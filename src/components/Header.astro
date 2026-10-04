@@ -2,6 +2,7 @@
 import menu from '../data/menu.json';
 import { SITE } from '../lib/site';
 import MenuItems, { type MenuItem } from './MenuItems.astro';
+import Search from './Search.astro';
 ---
 
 <header class="top js-header">
@@ -16,4 +17,5 @@ import MenuItems, { type MenuItem } from './MenuItems.astro';
     </button>
     <MenuItems items={menu as MenuItem[]} />
   </nav>
+  <Search />
 </header>

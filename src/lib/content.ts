@@ -128,6 +128,15 @@ function decodeEntities(text: string) {
   });
 }
 
+/** Sam tekst treści (bez znaczników i encji) – do indeksu wyszukiwarki. */
+export function plainText(html: string) {
+  const text = html
+    .replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, '')
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<[^>]+>/g, ' ');
+  return decodeEntities(text).replace(/\s+/g, ' ').trim();
+}
+
 /** Zajawka na listach: 45 słów + wielokropek (HTML). */
 export function excerpt(html: string, limit = 45) {
   return truncateWords(textWords(html), limit, '&hellip;');
