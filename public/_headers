@@ -1,0 +1,13 @@
+# Nagłówki bezpieczeństwa dla plików statycznych (Cloudflare Pages).
+# Odpowiedzi przechodzące przez Workera (/o-nas/, /patronaty/) dostają te same nagłówki
+# z public/_worker.js. Test tests/worker.test.js pilnuje, żeby oba miejsca były zgodne.
+#
+# CSP jest celowo okrojone do dyrektyw, które nie psują skryptów Publii/GA/YouTube.
+# Pełne script-src wymaga haszy (Astro: security.csp) i osobnych testów.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'

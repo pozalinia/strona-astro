@@ -13,7 +13,11 @@
 			e.preventDefault();
 			var box = document.createElement("div");
 			box.className = "patronat-lightbox";
-			box.innerHTML = '<img src="' + link.href + '" alt="">';
+			if (!/^https?:$/.test(link.protocol)) return; // bez javascript:, data: itp.
+				var img = document.createElement("img"); // nie innerHTML: adres z arkusza nie może trafić do kodu HTML
+				img.src = link.href;
+				img.alt = "";
+				box.appendChild(img);
 			box.addEventListener("click", function() {
 				box.remove();
 			});
