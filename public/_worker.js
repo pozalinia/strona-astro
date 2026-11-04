@@ -41,7 +41,13 @@ function coverUrl(raw) {
   if (!url) return "";
   const m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]+)/);
   if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w600`;
-  return url;
+  // Z arkusza przepuszczamy tylko adresy https: i względne – bez javascript:, data: itp.
+  // (parsowanie tak samo jak w przeglądarce, więc "java\tscript:" też odpada)
+  try {
+    return new URL(url, "https://pozalinia.pl/").protocol === "https:" ? url : "";
+  } catch {
+    return "";
+  }
 }
 
 function buildPatronatyHTML(tsv) {
@@ -93,9 +99,30 @@ function buildPatronatyHTML(tsv) {
   return html;
 }
 
+// ===== Nagłówki bezpieczeństwa =====
+
+// Te same nagłówki są w public/_headers (pliki statyczne obsługiwane bez Workera).
+// Tu dostają je odpowiedzi przechodzące przez Workera. Zmieniając jedno, zmień oba –
+// tests/worker.test.js sprawdza zgodność.
+const SECURITY_HEADERS = {
+  "Strict-Transport-Security": "max-age=31536000",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+  "Content-Security-Policy": "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'",
+};
+
+function withSecurityHeaders(response) {
+  // Kopia odpowiedzi, bo nagłówki odpowiedzi z ASSETS/HTMLRewriter mogą być niezmienne
+  const copy = new Response(response.body, response);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) copy.headers.set(name, value);
+  return copy;
+}
+
 // ===== Worker =====
 
-export default {
+const handler = {
   async fetch(request, env, ctx) {
     // 1. Pobieramy oryginalny plik statyczny z Publii
     let response = await env.ASSETS.fetch(request);
@@ -130,7 +157,8 @@ export default {
         const lines = text.split('\n');
         for (let line of lines) {
           const [id, bio] = line.split('\t');
-          if (id && bio) bios[id.trim()] = bio.trim();
+          // id trafia do selektora CSS – przepuszczamy tylko litery, cyfry, "_" i "-"
+          if (id && bio && /^[\w-]+$/.test(id.trim())) bios[id.trim()] = bio.trim();
         }
 
         let rewriter = new HTMLRewriter();
@@ -166,5 +194,11 @@ export default {
     }
 
     return response;
+  },
+};
+// Każda odpowiedź Workera dostaje nagłówki bezpieczeństwa
+export default {
+  async fetch(request, env, ctx) {
+    return withSecurityHeaders(await handler.fetch(request, env, ctx));
   },
 };
