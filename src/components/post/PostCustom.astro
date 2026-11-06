@@ -114,19 +114,31 @@ const secondTitleStyle = 'text-align: center; margin-bottom: 2rem;';
     <>
       <div class="poem-scrollbar" hidden aria-hidden="true"><div /></div>
       <script is:inline>
-        // Wiersze się nie zawijają (układ linii ma znaczenie). Na komputerze natywny pasek
-        // przewijania jest na samym dole wiersza, więc gdy go nie widać, pokazujemy
-        // przyklejony do dołu ekranu pasek zsynchronizowany z wierszem.
+        // Wiersze się nie zawijają (układ linii ma znaczenie). Krawędź wiersza jest wygaszana
+        // maską, więc na końcu przewijania (także na telefonie) zdejmujemy maskę, żeby nie
+        // zasłaniała ostatnich liter. Na komputerze natywny pasek przewijania jest na samym
+        // dole wiersza, więc gdy go nie widać, pokazujemy przyklejony do dołu ekranu pasek
+        // zsynchronizowany z wierszem.
         (function () {
-          if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
           var poem = document.querySelector('.post-poetary');
-          var bar = document.querySelector('.poem-scrollbar');
-          if (!poem || !bar) return;
-          var inner = bar.firstElementChild;
-          function update() {
+          if (!poem) return;
+          function updateEnd() {
             var overflow = poem.scrollWidth - poem.clientWidth > 1;
             var atEnd = poem.scrollLeft + poem.clientWidth >= poem.scrollWidth - 1;
             poem.classList.toggle('post-poetary--end', !overflow || atEnd);
+          }
+          poem.addEventListener('scroll', updateEnd, { passive: true });
+          addEventListener('resize', updateEnd);
+          addEventListener('load', updateEnd);
+          updateEnd();
+
+          if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+          var bar = document.querySelector('.poem-scrollbar');
+          if (!bar) return;
+          var inner = bar.firstElementChild;
+          function update() {
+            updateEnd();
+            var overflow = poem.scrollWidth - poem.clientWidth > 1;
             var r = poem.getBoundingClientRect();
             var show = overflow && r.top < innerHeight - 40 && r.bottom > innerHeight;
             bar.hidden = !show;
